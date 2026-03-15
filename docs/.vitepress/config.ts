@@ -15,7 +15,7 @@ export default defineConfig({
                 text: 'Links',
                 items: [
                     { text: 'GitHub', link: 'https://github.com/kkiwior/kouma' },
-                    { text: 'npm', link: 'https://www.npmjs.com/package/@kouma/client' },
+                    { text: 'npm', link: 'https://www.npmjs.com/package/kouma-client' },
                     { text: 'Helm Chart', link: 'https://github.com/kkiwior/kouma/pkgs/container/charts%2Fkouma' },
                 ],
             },

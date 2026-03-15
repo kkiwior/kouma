@@ -7,7 +7,7 @@ Upload screenshots, trigger builds, and query build results — as a library or 
 ## Install
 
 ```bash
-npm install @kouma/client
+npm install kouma-client
 ```
 
 ## Library Usage

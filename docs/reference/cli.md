@@ -5,7 +5,7 @@ The `kouma` CLI provides commands for uploading screenshots and querying build r
 ## Installation
 
 ```bash
-npm install -g @kouma/client
+npm install -g kouma-client
 ```
 
 Or use with `npx`:
