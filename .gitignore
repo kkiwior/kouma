@@ -1,0 +1,16 @@
+.idea/
+/.DS_Store
+/testing/.DS_Store
+/node_modules/
+/dashboard/node_modules/
+/client/node_modules/
+/exchange/
+/venv/
+/bug
+/code
+bun.lock
+package-lock.json
+vue-app/
+/docs/.vitepress/dist/
+/docs/.vitepress/cache/
+/docs/node_modules/

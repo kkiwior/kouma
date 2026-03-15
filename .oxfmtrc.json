@@ -1,0 +1,38 @@
+{
+    "$schema": "./node_modules/oxfmt/configuration_schema.json",
+    "ignorePatterns": ["engine/**", "charts/**"],
+    "arrowParens": "always",
+    "bracketSameLine": false,
+    "bracketSpacing": true,
+    "embeddedLanguageFormatting": "auto",
+    "endOfLine": "lf",
+    "htmlWhitespaceSensitivity": "css",
+    "insertFinalNewline": true,
+    "objectWrap": "collapse",
+    "printWidth": 140,
+    "proseWrap": "always",
+    "quoteProps": "as-needed",
+    "semi": true,
+    "singleAttributePerLine": true,
+    "singleQuote": true,
+    "sortImports": {
+        "newlinesBetween": false,
+        "groups": [
+            "value-builtin",
+            "value-internal",
+            "value-external",
+            "value-parent",
+            "value-sibling",
+            "value-index",
+            "type-internal",
+            "type-import",
+            "type-parent",
+            "type-sibling",
+            "type-index",
+            "unknown"
+        ]
+    },
+    "tabWidth": 4,
+    "useTabs": false,
+    "vueIndentScriptAndStyle": false
+}

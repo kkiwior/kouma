@@ -1,0 +1,17 @@
+apiVersion: v2
+name: kouma
+description: A Helm chart for Kouma Visual Regression Testing Tool
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+home: https://github.com/kkiwior/kouma
+sources:
+  - https://github.com/kkiwior/kouma
+keywords:
+  - visual-regression
+  - testing
+  - screenshots
+  - quality-assurance
+maintainers:
+  - name: kkiwior
+    url: https://github.com/kkiwior

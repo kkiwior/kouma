@@ -1,0 +1,9 @@
+{
+    "extends": "@vue/tsconfig/tsconfig.dom.json",
+    "compilerOptions": {
+        "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsBuildInfoFile",
+        "paths": { "@/*": ["./src/*"] },
+        "types": ["bun", "bun-types"]
+    },
+    "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "__tests__/**/*"]
+}

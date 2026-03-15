@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+    kouma-mongodb:
+        image: mongo:4
+        container_name: kouma-mongodb
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=mgadmin
+            - MONGO_INITDB_ROOT_PASSWORD=Password1
+            - MONGO_INITDB_DATABASE=kouma
+        command: >
+            bash -c 'echo "db.createUser({user: \"kouma-user\", pwd: \"kouma-password\", roles: [{role: \"readWrite\", db: \"kouma\"}]});" >
+            /docker-entrypoint-initdb.d/init.js && docker-entrypoint.sh mongod'
+        ports:
+            - '27017:27017'
+        networks:
+            - kouma-network
+        volumes:
+            - 'kouma-database-volume:/data/db'
+
+    kouma-dashboard:
+        build:
+            context: ./dashboard
+        container_name: kouma-dashboard
+        ports:
+            - '3001:3001'
+        environment:
+            - KOUMA_ENV=docker
+            - KOUMA_DB_HOST=kouma-mongodb
+            - KOUMA_DB_USERNAME=kouma-user
+            - KOUMA_DB_PASSWORD=kouma-password
+            - KOUMA_AUTH_MODE=none
+            # For passcode auth: set KOUMA_AUTH_MODE=passcode
+            # For Microsoft OAuth: set KOUMA_AUTH_MODE=microsoft and configure:
+            #   - KOUMA_MICROSOFT_CLIENT_ID=<your-client-id>
+            #   - KOUMA_MICROSOFT_CLIENT_SECRET=<your-client-secret>
+            #   - KOUMA_MICROSOFT_TENANT_ID=<your-tenant-id>
+            # For Google OAuth: set KOUMA_AUTH_MODE=google and configure:
+            #   - KOUMA_GOOGLE_CLIENT_ID=<your-client-id>
+            #   - KOUMA_GOOGLE_CLIENT_SECRET=<your-client-secret>
+            # Optional domain restriction for OAuth:
+            #   - KOUMA_OAUTH_ALLOWED_DOMAINS=example.com,corp.example.com
+        volumes:
+            - 'kouma-exchange-volume:/exchange'
+        networks:
+            - kouma-network
+            - nginx-network
+        depends_on:
+            - kouma-mongodb
+
+    kouma-engine:
+        build:
+            context: ./engine
+        container_name: kouma-engine
+        ports:
+            - '3002:3002'
+        environment:
+            - KOUMA_ENV=docker
+            - KOUMA_FS_HOST_URL=http://localhost:3001
+            - KOUMA_DB_HOST=kouma-mongodb
+            - KOUMA_DB_USERNAME=kouma-user
+            - KOUMA_DB_PASSWORD=kouma-password
+        volumes:
+            - 'kouma-exchange-volume:/exchange'
+        networks:
+            - kouma-network
+            - nginx-network
+        depends_on:
+            - kouma-mongodb
+
+volumes:
+    kouma-database-volume:
+    kouma-exchange-volume:
+
+networks:
+    kouma-network:
+    nginx-network:
