@@ -67,7 +67,7 @@ helm install kouma oci://ghcr.io/kkiwior/charts/kouma
 
 ## Documentation
 
-For more information, installation instructions, and guides, please refer to the documentation in the `docs/` directory.
+For more information, installation instructions, and guides, please refer to the documentation in the `docs/` directory or [GitHub pages](https://kkiwior.github.io/kouma/).
 
 ## Credits
 
