@@ -115,7 +115,7 @@ jobs:
 
             - name: Set version
               working-directory: client
-              run: npm version "${{ steps.version.outputs.version }}" --no-git-tag-version
+              run: npm version "${{ steps.version.outputs.version }}" --no-git-tag-version --allow-same-version
 
             - name: Build
               working-directory: client

@@ -3,9 +3,9 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
     title: 'Kouma',
     description: 'Pixel-based visual regression testing solution',
-    base: '/',
+    base: '/kouma',
     ignoreDeadLinks: [/localhost/],
-    head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }]],
+    head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '%%base%%logo.svg' }]],
     themeConfig: {
         logo: '/logo.svg',
         nav: [
