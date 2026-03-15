@@ -113,8 +113,7 @@ ingress:
 # Nginx Reverse Proxy
 # ==========================================================================
 nginx:
-  # -- Deploy nginx reverse proxy. Disable when using Ingress.
-  enabled: true
+  enabled: false
   image:
     repository: nginx
     tag: "alpine"

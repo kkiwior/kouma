@@ -1,6 +1,6 @@
 # kouma
 
-TypeScript client and CLI for [Kouma](https://github.com/nicholasgasior/Micoo) visual regression testing.
+TypeScript client and CLI for [Kouma](https://github.com/kkiwior/kouma) visual regression testing.
 
 Upload screenshots, trigger builds, and query build results — as a library or from the command line.
 
