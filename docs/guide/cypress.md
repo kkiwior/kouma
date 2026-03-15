@@ -5,7 +5,7 @@ Kouma provides a built-in Cypress plugin that automatically collects screenshots
 ## Installation
 
 ```bash
-npm install kouma
+npm install @kouma/client
 ```
 
 ## Setup

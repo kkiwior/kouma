@@ -1,18 +1,18 @@
 # Client Library
 
-The `kouma` npm package provides a TypeScript/JavaScript client for interacting with the Kouma API. It includes a programmatic API, a CLI,
+The `@kouma/client` npm package provides a TypeScript/JavaScript client for interacting with the Kouma API. It includes a programmatic API, a CLI,
 a Cypress plugin, and a Playwright reporter — all with zero runtime dependencies.
 
 ## Installation
 
 ```bash
-npm install kouma
+npm install @kouma/client
 ```
 
 ## Quick Start
 
 ```typescript
-import { KoumaClient } from 'kouma';
+import { KoumaClient } from '@kouma/client';
 
 const client = new KoumaClient({ host: 'https://kouma.example.com', apiKey: 'your-api-key' });
 

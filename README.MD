@@ -55,7 +55,7 @@ helm install kouma oci://ghcr.io/kkiwior/charts/kouma
 | Dashboard image | `ghcr.io/kkiwior/kouma/dashboard` |
 | Engine image | `ghcr.io/kkiwior/kouma/engine` |
 | Helm chart | `oci://ghcr.io/kkiwior/charts/kouma` |
-| npm client | [`kouma`](https://www.npmjs.com/package/kouma) |
+| npm client | [`@kouma/client`](https://www.npmjs.com/package/@kouma/client) |
 
 ## Screenshots
 

@@ -5,7 +5,7 @@ Kouma provides a built-in Playwright Test reporter that automatically collects s
 ## Installation
 
 ```bash
-npm install kouma
+npm install @kouma/client
 ```
 
 ## Setup

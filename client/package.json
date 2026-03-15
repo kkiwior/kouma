@@ -1,5 +1,5 @@
 {
-    "name": "kouma",
+    "name": "@kouma/client",
     "version": "1.0.0",
     "description": "Kouma visual regression testing client — CLI & library",
     "keywords": [
