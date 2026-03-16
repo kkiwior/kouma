@@ -5,9 +5,9 @@ Complete reference of all environment variables used by Kouma services.
 ## Dashboard
 
 | Variable            | Default     | Description                                                           |
-| ------------------- | ----------- | --------------------------------------------------------------------- |
+| ------------------- | ----------- |-----------------------------------------------------------------------|
 | `KOUMA_ENV`         | —           | Set to `docker` for containerized deployment                          |
-| `KOUMA_FS_HOST_URL` | —           | File server URL for screenshot access (e.g., `http://localhost:8123`) |
+| `KOUMA_FS_HOST_URL` | —           | File server URL for screenshot access (e.g., `http://localhost:3001`) |
 | `KOUMA_DB_HOST`     | `localhost` | MongoDB host                                                          |
 | `KOUMA_DB_USERNAME` | —           | MongoDB username                                                      |
 | `KOUMA_DB_PASSWORD` | —           | MongoDB password                                                      |
@@ -63,7 +63,7 @@ services:
     kouma-dashboard:
         environment:
             - KOUMA_ENV=docker
-            - KOUMA_FS_HOST_URL=http://localhost:8123
+            - KOUMA_FS_HOST_URL=http://localhost:3001
             - KOUMA_DB_HOST=kouma-mongodb
             - KOUMA_DB_USERNAME=kouma-user
             - KOUMA_DB_PASSWORD=kouma-password
@@ -72,7 +72,7 @@ services:
     kouma-engine:
         environment:
             - KOUMA_ENV=docker
-            - KOUMA_FS_HOST_URL=http://localhost:8123
+            - KOUMA_FS_HOST_URL=http://localhost:3001
             - KOUMA_DB_HOST=kouma-mongodb
             - KOUMA_DB_USERNAME=kouma-user
             - KOUMA_DB_PASSWORD=kouma-password

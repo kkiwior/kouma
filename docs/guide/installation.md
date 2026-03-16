@@ -34,18 +34,17 @@ cd kouma
 docker-compose up
 ```
 
-This starts four services:
+This starts three services:
 
 | Service       | Port    | Description                      |
 | ------------- | ------- | -------------------------------- |
-| **Nginx**     | `8123`  | Reverse proxy — main entry point |
 | **Dashboard** | `3001`  | Web application                  |
 | **Engine**    | `3002`  | Comparison engine                |
 | **MongoDB**   | `27017` | Database                         |
 
 ### 3. Access Kouma
 
-Open [http://localhost:8123](http://localhost:8123) in your browser to access the dashboard.
+Open [http://localhost:3001](http://localhost:3001) in your browser to access the dashboard.
 
 ### 4. Create a project
 
@@ -91,9 +90,6 @@ ingress:
           hosts:
               - kouma.example.com
 
-nginx:
-    enabled: false
-
 dashboard:
     auth:
         mode: microsoft
@@ -136,15 +132,17 @@ See the [Helm Chart Reference](/reference/helm-chart) for all available values.
 
 ## Services Overview
 
-### Nginx (Reverse Proxy)
+### Dashboard
 
-Routes traffic to the dashboard and engine:
+The web application serves the REST API (`/api/`), the Vue.js frontend, and proxies engine requests:
 
-- `/` → Dashboard
-- `/engine/` → Engine API
-- `/file-server/` → Screenshot file storage
+- `/` → Dashboard UI
+- `/engine/` → Proxies to Engine API
+- `/images/` → Serves screenshot file storage
 
-Maximum upload size is **10 MB** per request.
+### Engine
+
+The Go comparison engine handles screenshot uploads and pixel-based comparison.
 
 ### MongoDB
 
@@ -159,14 +157,6 @@ Default credentials for local development:
 | Database       | `kouma`          |
 
 ::: warning Change the default credentials for any non-local deployment. :::
-
-### Dashboard
-
-The web application serves both the REST API (`/api/`) and the Vue.js frontend.
-
-### Engine
-
-The Go comparison engine handles screenshot uploads and pixel-based comparison.
 
 ## Next Steps
 

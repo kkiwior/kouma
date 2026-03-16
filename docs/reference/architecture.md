@@ -6,19 +6,20 @@ Overview of Kouma's system architecture and how the services interact.
 
 ```
 ┌─────────────────────────────────────────────────┐
-│                   Nginx (port 8123)              │
-│                  Reverse Proxy                   │
+│              Dashboard (port 3001)               │
+│             Bun + TypeScript + Vue 3             │
 │                                                  │
-│  /          → Dashboard (port 3001)              │
-│  /engine/   → Engine (port 3002)                 │
-│  /file-server/ → Screenshot storage              │
+│  /          → Serves Vue Frontend                │
+│  /api/      → Dashboard REST API                 │
+│  /engine/   → Proxied to Engine (port 3002)      │
+│  /images/   → Serves screenshots from storage    │
 └────────┬──────────────┬──────────────┬───────────┘
          │              │              │
-    ┌────▼────┐    ┌────▼────┐    ┌───▼────┐
-    │Dashboard│    │ Engine  │    │ Files  │
-    │ Bun +   │    │   Go    │    │ Volume │
-    │ Vue 3   │    │         │    │        │
-    └────┬────┘    └────┬────┘    └────────┘
+         │         ┌────▼────┐    ┌───▼────┐
+         │         │ Engine  │    │ Files  │
+         │         │   Go    │    │ Volume │
+         │         │         │    │        │
+         │         └────┬────┘    └────────┘
          │              │
          └──────┬───────┘
                 │
@@ -30,25 +31,19 @@ Overview of Kouma's system architecture and how the services interact.
 
 ## Components
 
-### Nginx
-
-The entry point for all traffic. Routes requests based on URL path:
-
-- **`/`** — Proxies to the Dashboard
-- **`/engine/`** — Proxies to the Engine
-- **`/file-server/`** — Serves static screenshot files from the shared volume
-
 ### Dashboard
 
 **Technology**: Bun + TypeScript (backend), Vue 3 + Vite (frontend)
 
 Responsibilities:
 
+- Entry point for all traffic (reverse proxy to Engine)
 - Serve the web UI for reviewing test results
 - REST API for project, build, and case management
 - Authentication (passcode, Microsoft OAuth, Google OAuth)
 - Swagger/OpenAPI documentation
 - Activity logging
+- Serve static screenshot files from the shared volume
 
 ### Engine
 
@@ -62,24 +57,13 @@ Responsibilities:
 - Generate diff images highlighting pixel differences
 - Update build and case results in MongoDB
 
-### MongoDB
-
-**Technology**: MongoDB 4+
-
-Stores:
-
-- **Projects** — name, API key, configuration
-- **Builds** — version, index, status, result
-- **Cases** — test case data, baseline and comparison screenshots
-- **Ignorings** — rectangle coordinates for excluding regions from comparison
-- **Activity Logs** — user action audit trail
 
 ### Shared File System
 
-A Docker volume (`kouma-exchange-volume`) shared between Nginx, Dashboard, and Engine:
+A Docker volume (`kouma-exchange-volume`) shared between Dashboard, and Engine:
 
 - Engine writes uploaded and generated screenshots
-- Nginx serves them as static files via `/file-server/`
+- Dashboard serves them as static files via `/file-server/`
 - Dashboard references them in the web UI
 
 ## Data Flow
@@ -87,13 +71,13 @@ A Docker volume (`kouma-exchange-volume`) shared between Nginx, Dashboard, and E
 ### Upload and Compare
 
 ```
-1. Client/CLI uploads images    →  Engine /slave/build/sync
+1. Client/CLI uploads images    →  Dashboard proxies to Engine /slave/build/sync
 2. Engine stores screenshots  →  Shared volume
 3. Engine compares each       →  Against baseline from MongoDB
 4. Engine generates diffs     →  Saved to shared volume
 5. Engine updates results     →  MongoDB (build + cases)
 6. Dashboard reads results    →  MongoDB
-7. Dashboard shows images     →  Via Nginx /file-server/
+7. Dashboard shows images     →  Via Dashboard /images/
 ```
 
 ### Review and Rebase
@@ -109,7 +93,7 @@ A Docker volume (`kouma-exchange-volume`) shared between Nginx, Dashboard, and E
 
 ### Docker Compose (Development)
 
-All four services run on a single machine. Best for local development and small teams.
+All three services run on a single machine. Best for local development and small teams.
 
 ### Kubernetes with Helm (Production)
 
@@ -118,7 +102,6 @@ Each service runs as a separate deployment with:
 - Persistent volume claims for MongoDB and file storage
 - Configurable resource limits
 - Service-based internal networking
-- ConfigMap for Nginx configuration
 - Optional Ingress resource with TLS support
 - Support for external MongoDB connections
 

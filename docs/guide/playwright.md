@@ -20,9 +20,9 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
     reporter: [
         [
-            'kouma/playwright',
+            'kouma-client/playwright',
             {
-                host: process.env.KOUMA_HOST ?? 'http://localhost:8123',
+                host: process.env.KOUMA_HOST ?? 'http://localhost:3001',
                 apiKey: process.env.KOUMA_API_KEY ?? 'your-api-key',
                 pid: process.env.KOUMA_PID ?? 'your-project-id',
                 buildVersion: process.env.GIT_SHA ?? 'local',
@@ -39,9 +39,9 @@ export default defineConfig({
     reporter: [
         ['html'],
         [
-            'kouma/playwright',
+            'kouma-client/playwright',
             {
-                host: process.env.KOUMA_HOST ?? 'http://localhost:8123',
+                host: process.env.KOUMA_HOST ?? 'http://localhost:3001',
                 apiKey: process.env.KOUMA_API_KEY ?? 'your-api-key',
                 pid: process.env.KOUMA_PID ?? 'your-project-id',
                 buildVersion: process.env.GIT_SHA ?? 'local',
@@ -158,16 +158,3 @@ visual-test:
         - npx playwright install --with-deps
         - KOUMA_HOST=$KOUMA_HOST KOUMA_API_KEY=$KOUMA_API_KEY KOUMA_PID=$KOUMA_PID GIT_SHA=$CI_COMMIT_SHA npx playwright test
 ```
-
-## Comparison with Cypress Plugin
-
-Both integrations follow the same pattern: collect screenshots during test execution and upload them to Kouma after the suite completes.
-
-| Feature                         | Cypress Plugin           | Playwright Reporter      |
-| ------------------------------- | ------------------------ | ------------------------ |
-| Configuration                   | `setupNodeEvents(on)`    | `reporter` config array  |
-| Screenshot collection           | `after:screenshot` event | Test result attachments  |
-| Upload trigger                  | `after:run` event        | `onEnd` hook             |
-| `triggerVisualTesting` option   | ✅                       | ✅                       |
-| `triggerOnAllPassed` option     | ✅                       | ✅                       |
-| `removeScreenshotsAfterUpload` | ✅                       | ✅                       |

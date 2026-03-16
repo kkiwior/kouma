@@ -89,12 +89,3 @@ Upload screenshots, initialize a build, and run comparison in a single request. 
 | `KOUMA_DB_USERNAME`    | —       | MongoDB username                              |
 | `KOUMA_DB_PASSWORD`    | —       | MongoDB password                              |
 | `PORT`                 | `3002`  | Engine service port                           |
-
-## Tech Stack
-
-| Component            | Technology                     |
-| -------------------- | ------------------------------ |
-| **Language**         | Go 1.26.0                      |
-| **Database**         | MongoDB via Go driver          |
-| **Image Processing** | golang.org/x/image             |
-| **Deployment**       | Single static binary in Docker |

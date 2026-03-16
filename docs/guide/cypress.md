@@ -16,13 +16,13 @@ In your `cypress.config.ts`:
 
 ```typescript
 import { defineConfig } from 'cypress';
-import { createCypressPlugin } from 'kouma/cypress';
+import { createCypressPlugin } from 'kouma-client/cypress';
 
 export default defineConfig({
     e2e: {
         setupNodeEvents(on) {
             createCypressPlugin(on, {
-                host: process.env.KOUMA_HOST ?? 'http://localhost:8123',
+                host: process.env.KOUMA_HOST ?? 'http://localhost:3001',
                 apiKey: process.env.KOUMA_API_KEY ?? 'your-api-key',
                 pid: process.env.KOUMA_PID ?? 'your-project-id',
                 buildVersion: process.env.GIT_SHA ?? 'local',
