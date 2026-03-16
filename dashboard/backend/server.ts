@@ -1,6 +1,6 @@
 import path from 'path';
 import swaggerJSDoc from 'swagger-jsdoc';
-import { exchangeRootDir } from './config/env.config.ts';
+import { exchangeRootDir, engineUrl } from './config/env.config.ts';
 import { registerActivityLogRoutes } from './controllers/activity-log.controller.ts';
 import { registerAdminRoutes } from './controllers/admin.controller.ts';
 import { registerAnalyticsRoutes } from './controllers/analytics.controller.ts';
@@ -106,6 +106,27 @@ async function handleRequest(req: Request): Promise<Response> {
                 response = new Response(staticResp.body, { status: staticResp.status, headers });
             } else {
                 response = new Response('Not Found', { status: 404 });
+            }
+            logRequest(method, pathname, response.status, startTime);
+            return response;
+        }
+
+        if (engineUrl && (pathname.startsWith('/slave/') || pathname === '/echo')) {
+            const targetUrl = `${engineUrl}${pathname}${url.search}`;
+            try {
+                const hasBody = !['GET', 'HEAD', 'OPTIONS'].includes(req.method);
+                const proxyResp = await fetch(targetUrl, {
+                    method: req.method,
+                    headers: req.headers,
+                    body: hasBody ? req.body : undefined,
+                });
+                response = new Response(proxyResp.body, {
+                    status: proxyResp.status,
+                    headers: proxyResp.headers,
+                });
+            } catch (err) {
+                logger.error('Engine proxy error:', err);
+                response = internalServerError({ message: 'Engine proxy error' });
             }
             logRequest(method, pathname, response.status, startTime);
             return response;

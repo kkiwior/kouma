@@ -38,6 +38,7 @@ import {
     requireApiKey,
     safeErrorMessage,
     getHost,
+    toRelativePath,
     allCasesPassed,
     validateProjectName,
     retrieveProjectInfo,
@@ -216,6 +217,24 @@ describe('server-utils', () => {
         });
     });
 
+    describe('toRelativePath', () => {
+        it('should extract the path from an absolute http URL', () => {
+            expect(toRelativePath('http://kouma-dashboard:3001/file-server/assets/img.webp')).toBe('/file-server/assets/img.webp');
+        });
+
+        it('should extract the path from an absolute https URL', () => {
+            expect(toRelativePath('https://example.com/file-server/projects/foo/bar.png')).toBe('/file-server/projects/foo/bar.png');
+        });
+
+        it('should return the input unchanged when already a relative path', () => {
+            expect(toRelativePath('/file-server/assets/img.webp')).toBe('/file-server/assets/img.webp');
+        });
+
+        it('should return empty string unchanged', () => {
+            expect(toRelativePath('')).toBe('');
+        });
+    });
+
     describe('retrieveProjectInfo', () => {
         it('should return empty array when no projects', async () => {
             (Project.find as any).mockReturnValue({ lean: () => Promise.resolve([]) });
@@ -245,6 +264,22 @@ describe('server-utils', () => {
             expect(proj.totalBuildsNumber).toBe(5);
             expect(proj.latestBuildResult).toBe('passed');
             expect(proj.labels).toEqual(['label1']);
+        });
+
+        it('should normalize absolute projectImageUrl to a relative path', async () => {
+            const mockProject = {
+                pid: 'PID789',
+                projectName: 'team',
+                projectDisplayName: 'Team',
+                projectImageUrl: 'http://kouma-dashboard:3001/file-server/assets/project-team-image/team-team.348x225.webp',
+                labels: [],
+            };
+            (Project.find as any).mockReturnValue({ lean: () => Promise.resolve([mockProject]) });
+            (Build.aggregate as any).mockResolvedValue([]);
+
+            const result = await retrieveProjectInfo();
+            const proj = result[0] as any;
+            expect(proj.projectImageUrl).toBe('/file-server/assets/project-team-image/team-team.348x225.webp');
         });
 
         it('should handle projects with no builds', async () => {

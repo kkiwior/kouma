@@ -78,7 +78,7 @@ func Init() {
 }
 
 func ScreenshotsPathToURL(screenshotsPath string) string {
-	return strings.Replace(screenshotsPath, ExchangeRootDir, FileServerHost, 1)
+	return strings.Replace(screenshotsPath, ExchangeRootDir, "", 1)
 }
 
 func LocalTestScreenshots(projectName string) string {

@@ -7,7 +7,7 @@ import { projectService } from '../services/project-service.ts';
 import { parseJsonBody, jsonResponse, notFound, internalServerError } from '../src/helpers.ts';
 import { Router } from '../src/router.ts';
 import { logger } from '../utils/logger.ts';
-import { requireApiAuth, safeErrorMessage, checkAndUpdateBuildResult, getHost, getUserFromRequest } from '../utils/server-utils.ts';
+import { requireApiAuth, safeErrorMessage, checkAndUpdateBuildResult, getHost, getUserFromRequest, toRelativePath } from '../utils/server-utils.ts';
 
 export function registerCaseRoutes(router: Router) {
     /**
@@ -108,9 +108,9 @@ export function registerCaseRoutes(router: Router) {
                 projectName: project.projectName,
                 caseName: testCase.caseName,
                 caseResult: testCase.caseResult,
-                diffUrl: testCase.linkDiff,
-                latestUrl: testCase.linkLatest,
-                baselineUrl: testCase.linkBaseline,
+                diffUrl: toRelativePath(testCase.linkDiff),
+                latestUrl: toRelativePath(testCase.linkLatest),
+                baselineUrl: toRelativePath(testCase.linkBaseline),
                 diffPercentage: testCase.diffPercentage,
                 view,
                 hostUrl: `http://${getHost(req)}`,

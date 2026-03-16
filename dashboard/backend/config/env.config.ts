@@ -47,10 +47,12 @@ export const projectImagePath = (projectName: string) => {
 };
 
 export const projectImageUrl = (projectName: string) => {
-    return fileServerHost + projectImageRelativeLocation(projectName);
+    return projectImageRelativeLocation(projectName);
 };
 
 export const localTestScreenshotsLatestPath = 'screenshots/latest';
 export const localTestScreenshotsBaselinePath = 'screenshots/baseline';
+
+export const engineUrl = getEnv('ENGINE_URL', '');
 
 export { mongodbUrl, exchangeRootDir };

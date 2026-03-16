@@ -54,7 +54,7 @@ func TestScreenshotsPathToURL(t *testing.T) {
 	Init()
 
 	path := "/exchange/file-server/projects/myproject/builds/build_1/login.latest.png"
-	expected := "http://localhost:8123/file-server/projects/myproject/builds/build_1/login.latest.png"
+	expected := "/file-server/projects/myproject/builds/build_1/login.latest.png"
 	result := ScreenshotsPathToURL(path)
 
 	if result != expected {

@@ -7,24 +7,20 @@ Kouma has been deployed successfully!
 Access Kouma via Ingress:
 {{- range .Values.ingress.hosts }}
   Dashboard: http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}
-  Engine:    http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}/engine/
 {{- end }}
 
-{{- else if .Values.nginx.enabled }}
+{{- else if eq .Values.dashboard.service.type "NodePort" }}
 
-Access Kouma via the nginx service:
-
-{{- if eq .Values.nginx.service.type "NodePort" }}
-  export NODE_PORT=$(kubectl get svc {{ $fullName }}-nginx -n {{ .Release.Namespace }} -o jsonpath='{.spec.ports[0].nodePort}')
+Access Kouma via NodePort:
+  export NODE_PORT=$(kubectl get svc {{ $fullName }}-dashboard -n {{ .Release.Namespace }} -o jsonpath='{.spec.ports[0].nodePort}')
   export NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[0].address}')
   echo "Kouma: http://$NODE_IP:$NODE_PORT"
-{{- else if eq .Values.nginx.service.type "LoadBalancer" }}
-  export LB_IP=$(kubectl get svc {{ $fullName }}-nginx -n {{ .Release.Namespace }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-  echo "Kouma: http://$LB_IP:{{ .Values.nginx.service.port }}"
-{{- else }}
-  kubectl port-forward svc/{{ $fullName }}-nginx {{ .Values.nginx.service.port }}:{{ .Values.nginx.service.port }} -n {{ .Release.Namespace }}
-  echo "Kouma: http://localhost:{{ .Values.nginx.service.port }}"
-{{- end }}
+
+{{- else if eq .Values.dashboard.service.type "LoadBalancer" }}
+
+Access Kouma via LoadBalancer:
+  export LB_IP=$(kubectl get svc {{ $fullName }}-dashboard -n {{ .Release.Namespace }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  echo "Kouma: http://$LB_IP:{{ .Values.dashboard.service.port }}"
 
 {{- else }}
 

@@ -65,6 +65,15 @@ export function getHost(req: Request): string {
     return req.headers.get('host') || 'localhost';
 }
 
+export function toRelativePath(url: string): string {
+    if (!url) return url;
+    try {
+        return new URL(url).pathname;
+    } catch {
+        return url;
+    }
+}
+
 export async function retrieveProjectInfo(): Promise<unknown[]> {
     const allProjects = await Project.find({}).lean();
 
@@ -86,7 +95,7 @@ export async function retrieveProjectInfo(): Promise<unknown[]> {
             pid: project.pid,
             projectName: project.projectName,
             projectDisplayName: project.projectDisplayName,
-            projectImageUrl: project.projectImageUrl,
+            projectImageUrl: toRelativePath(project.projectImageUrl),
             latestBuildResult: stats?.latestBuildResult ?? '',
             latestBuildTime: stats?.latestBuildCreatedAt ? formatTime(stats.latestBuildCreatedAt) : '',
             totalBuildsNumber: stats?.buildsCount ?? 0,

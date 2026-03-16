@@ -92,23 +92,6 @@ app.kubernetes.io/component: mongodb
 {{- end }}
 
 {{/*
-Nginx labels
-*/}}
-{{- define "kouma.nginx.labels" -}}
-{{ include "kouma.labels" . }}
-{{ include "kouma.nginx.selectorLabels" . }}
-{{- end }}
-
-{{/*
-Nginx selector labels
-*/}}
-{{- define "kouma.nginx.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "kouma.fullname" . }}-nginx
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/component: nginx
-{{- end }}
-
-{{/*
 MongoDB host
 */}}
 {{- define "kouma.mongodb.host" -}}
@@ -162,17 +145,13 @@ File server host URL (external URL for accessing screenshots)
 {{- define "kouma.fsHostUrl" -}}
 {{- if .Values.common.fsHostUrl }}
 {{- .Values.common.fsHostUrl }}
-{{- else if .Values.ingress.enabled }}
+{{- else if and .Values.ingress.enabled (gt (len .Values.ingress.hosts) 0) (index .Values.ingress.hosts 0).host }}
 {{- $host := (index .Values.ingress.hosts 0).host }}
 {{- if .Values.ingress.tls }}
 {{- printf "https://%s" $host }}
 {{- else }}
 {{- printf "http://%s" $host }}
 {{- end }}
-{{- else if .Values.nginx.enabled }}
-{{- printf "http://%s-nginx:%v" (include "kouma.fullname" .) .Values.nginx.service.port }}
-{{- else }}
-{{- printf "http://%s-dashboard:%v" (include "kouma.fullname" .) .Values.dashboard.service.port }}
 {{- end }}
 {{- end }}
 

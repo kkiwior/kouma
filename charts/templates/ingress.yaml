@@ -25,16 +25,11 @@ spec:
   {{- end }}
   rules:
     {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - {{- if .host }}
+      host: {{ .host | quote }}
+      {{- end }}
       http:
         paths:
-          - path: /engine
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ include "kouma.fullname" $ }}-engine
-                port:
-                  number: {{ $.Values.engine.service.port }}
           - path: /
             pathType: Prefix
             backend:

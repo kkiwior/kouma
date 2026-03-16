@@ -1,0 +1,178 @@
+# Default values for kouma.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# -- Override the chart name
+nameOverride: ""
+# -- Override the full resource name
+fullnameOverride: ""
+
+# -- Image pull secrets for all images
+imagePullSecrets: []
+
+# ==========================================================================
+# MongoDB - Bundled instance
+# ==========================================================================
+mongodb:
+  # -- Deploy a bundled MongoDB instance.
+  # Set to false to use an external database (see externalMongodb).
+  enabled: true
+  image:
+    repository: mongo
+    tag: "7"
+    pullPolicy: IfNotPresent
+  persistence:
+    enabled: true
+    size: 10Gi
+    accessMode: ReadWriteOnce
+    # -- Storage class (empty = cluster default)
+    storageClass: ""
+  auth:
+    rootUsername: mgadmin
+    rootPassword: Password1
+    username: kouma-user
+    password: kouma-password
+    database: kouma
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+# ==========================================================================
+# External MongoDB - Used when mongodb.enabled is false
+# ==========================================================================
+externalMongodb:
+  # -- Full MongoDB connection URI. Takes precedence over individual fields.
+  # Example: mongodb+srv://user:pass@cluster.mongodb.net/kouma
+  uri: ""
+  # -- MongoDB host (used when uri is empty)
+  host: ""
+  # -- MongoDB port
+  port: 27017
+  # -- MongoDB username
+  username: ""
+  # -- MongoDB password
+  password: ""
+  # -- MongoDB database name
+  database: "kouma"
+  # -- Use an existing Kubernetes Secret for MongoDB URI.
+  # The secret must contain a key with the full connection string.
+  existingSecret: ""
+  # -- Key in the existing secret containing the MongoDB URI
+  existingSecretKey: "mongodb-uri"
+
+# ==========================================================================
+# Exchange Volume - Shared file storage for screenshots
+# ==========================================================================
+exchange:
+  persistence:
+    enabled: true
+    size: 5Gi
+    accessMode: ReadWriteMany
+    # -- Storage class (empty = cluster default)
+    storageClass: ""
+
+# ==========================================================================
+# Common Configuration - Shared between dashboard and engine
+# ==========================================================================
+common:
+  # -- File server host URL (external URL for accessing screenshots).
+  # Auto-detected from ingress configuration if left empty.
+  fsHostUrl: ""
+  # -- Secret key for API key generation (shared between dashboard and engine).
+  # Leave empty to use the application default.
+  apiKeySecret: ""
+  # -- Additional environment variables applied to both dashboard and engine.
+  # Example:
+  #   extraEnv:
+  #     - name: MY_VAR
+  #       value: "my-value"
+  extraEnv: []
+
+# ==========================================================================
+# Ingress
+# ==========================================================================
+ingress:
+  # -- Enable Kubernetes Ingress resource.
+  enabled: false
+  # -- Ingress class name (e.g. nginx, traefik)
+  className: ""
+  # -- Annotations for the Ingress resource
+  annotations: {}
+  # -- List of ingress hosts. Use an empty host ("") to match all hostnames.
+  hosts:
+    - host: kouma.local
+  # -- TLS configuration
+  tls: []
+  #  - secretName: kouma-tls
+  #    hosts:
+  #      - kouma.local
+
+# ==========================================================================
+# Dashboard
+# ==========================================================================
+dashboard:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/kkiwior/kouma/dashboard
+    # -- Overrides the image tag (defaults to Chart.appVersion)
+    tag: ""
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 3001
+    # -- NodePort number (only when service.type is NodePort)
+    nodePort: ""
+  # -- Authentication configuration
+  auth:
+    # -- Auth mode: none, passcode, microsoft, google
+    mode: "none"
+    # -- Passcode secret key (required when mode is "passcode")
+    passcodeKey: ""
+    # -- Auth cookie / token name
+    tokenKey: ""
+    # -- JWT access token secret
+    accessTokenSecret: ""
+    # -- Microsoft OAuth settings
+    microsoft:
+      clientId: ""
+      clientSecret: ""
+      tenantId: ""
+    # -- Google OAuth settings
+    google:
+      clientId: ""
+      clientSecret: ""
+    # -- Comma-separated list of allowed OAuth email domains
+    oauthAllowedDomains: ""
+  # -- Additional environment variables for the dashboard
+  extraEnv: []
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
+
+# ==========================================================================
+# Engine
+# ==========================================================================
+engine:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/kkiwior/kouma/engine
+    # -- Overrides the image tag (defaults to Chart.appVersion)
+    tag: ""
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 3002
+  # -- Additional environment variables for the engine
+  extraEnv: []
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
