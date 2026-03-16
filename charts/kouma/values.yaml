@@ -68,7 +68,7 @@ exchange:
   persistence:
     enabled: true
     size: 5Gi
-    accessMode: ReadWriteMany
+    accessMode: ReadWriteOnce
     # -- Storage class (empty = cluster default)
     storageClass: ""
 
@@ -77,7 +77,7 @@ exchange:
 # ==========================================================================
 common:
   # -- File server host URL (external URL for accessing screenshots).
-  # Auto-detected from ingress or nginx configuration if left empty.
+  # Auto-detected from ingress configuration if left empty.
   fsHostUrl: ""
   # -- Secret key for API key generation (shared between dashboard and engine).
   # Leave empty to use the application default.
@@ -94,13 +94,12 @@ common:
 # ==========================================================================
 ingress:
   # -- Enable Kubernetes Ingress resource.
-  # When enabled, consider disabling nginx (nginx.enabled: false).
   enabled: false
   # -- Ingress class name (e.g. nginx, traefik)
   className: ""
   # -- Annotations for the Ingress resource
   annotations: {}
-  # -- List of ingress hosts
+  # -- List of ingress hosts. Use an empty host ("") to match all hostnames.
   hosts:
     - host: kouma.local
   # -- TLS configuration
@@ -108,22 +107,6 @@ ingress:
   #  - secretName: kouma-tls
   #    hosts:
   #      - kouma.local
-
-# ==========================================================================
-# Nginx Reverse Proxy
-# ==========================================================================
-nginx:
-  enabled: false
-  image:
-    repository: nginx
-    tag: "alpine"
-    pullPolicy: IfNotPresent
-  service:
-    type: ClusterIP
-    port: 80
-    # -- NodePort number (only when service.type is NodePort)
-    nodePort: ""
-  resources: {}
 
 # ==========================================================================
 # Dashboard
@@ -138,6 +121,8 @@ dashboard:
   service:
     type: ClusterIP
     port: 3001
+    # -- NodePort number (only when service.type is NodePort)
+    nodePort: ""
   # -- Authentication configuration
   auth:
     # -- Auth mode: none, passcode, microsoft, google
