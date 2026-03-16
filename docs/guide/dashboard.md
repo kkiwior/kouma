@@ -54,13 +54,3 @@ All user actions are logged for audit purposes:
 ## API Documentation
 
 The dashboard exposes a Swagger UI at `/docs` with the full OpenAPI specification for all REST endpoints.
-
-## Tech Stack
-
-| Component    | Technology              |
-| ------------ | ----------------------- |
-| **Backend**  | Bun, TypeScript         |
-| **Frontend** | Vue 3, TypeScript, Vite |
-| **Styling**  | Tailwind CSS            |
-| **Routing**  | Vue Router 4            |
-| **Database** | MongoDB via Mongoose    |

@@ -132,7 +132,7 @@ await client.newBuildStaged({
 ### Cypress Plugin
 
 ```typescript
-import { createCypressPlugin } from 'kouma/cypress';
+import { createCypressPlugin } from 'kouma-client/cypress';
 ```
 
 See the [Cypress Integration](/guide/cypress) guide for details.
@@ -141,7 +141,7 @@ See the [Cypress Integration](/guide/cypress) guide for details.
 
 ```typescript
 // playwright.config.ts
-reporter: [['kouma/playwright', { host, apiKey, pid, buildVersion }]];
+reporter: [['kouma-client/playwright', { host, apiKey, pid, buildVersion }]];
 ```
 
 See the [Playwright Integration](/guide/playwright) guide for details.
@@ -154,17 +154,6 @@ See the [Playwright Integration](/guide/playwright) guide for details.
 - **Directory**: The `screenshotsDirectory` is scanned for supported image files
 - The filename (without extension) becomes the test case name in Kouma
 
-## Error Handling
-
-All methods throw errors on failure. Wrap calls in try/catch for error handling:
-
-```typescript
-try {
-    const build = await client.newBuildStaged(options);
-} catch (error) {
-    console.error('Build failed:', error.message);
-}
-```
 
 ## Node.js Compatibility
 

@@ -70,7 +70,7 @@ Used when `mongodb.enabled` is `false`.
 
 ### Exchange Volume
 
-Shared file storage for screenshots between engine, dashboard, and nginx.
+Shared file storage for screenshots between engine and dashboard.
 
 | Key | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -99,17 +99,6 @@ Shared settings applied to both dashboard and engine.
 | `ingress.hosts` | list | `[{host: kouma.local}]` | List of ingress hosts |
 | `ingress.tls` | list | `[]` | TLS configuration |
 
-### Nginx
-
-| Key | Type | Default | Description |
-| --- | --- | --- | --- |
-| `nginx.enabled` | bool | `true` | Deploy nginx reverse proxy |
-| `nginx.image.repository` | string | `nginx` | Nginx image repository |
-| `nginx.image.tag` | string | `alpine` | Nginx image tag |
-| `nginx.service.type` | string | `ClusterIP` | Service type |
-| `nginx.service.port` | int | `80` | Service port |
-| `nginx.service.nodePort` | string | `""` | NodePort (when type is NodePort) |
-
 ### Dashboard
 
 | Key | Type | Default | Description |
@@ -117,7 +106,9 @@ Shared settings applied to both dashboard and engine.
 | `dashboard.replicaCount` | int | `1` | Number of dashboard replicas |
 | `dashboard.image.repository` | string | `ghcr.io/kkiwior/kouma/dashboard` | Dashboard image |
 | `dashboard.image.tag` | string | `""` | Image tag (defaults to `appVersion`) |
+| `dashboard.service.type` | string | `ClusterIP` | Service type |
 | `dashboard.service.port` | int | `3001` | Service port |
+| `dashboard.service.nodePort` | string | `""` | NodePort (when type is NodePort) |
 | `dashboard.auth.mode` | string | `none` | Auth mode: `none`, `passcode`, `microsoft`, `google` |
 | `dashboard.auth.passcodeKey` | string | `""` | Passcode (when mode is `passcode`) |
 | `dashboard.auth.tokenKey` | string | `""` | Cookie / token name |
@@ -163,9 +154,6 @@ ingress:
           hosts:
               - kouma.example.com
 
-nginx:
-    enabled: false
-
 dashboard:
     auth:
         mode: microsoft
@@ -198,7 +186,7 @@ externalMongodb:
 ### NodePort access without Ingress
 
 ```yaml
-nginx:
+dashboard:
     service:
         type: NodePort
         nodePort: "30123"
