@@ -54,8 +54,6 @@ export function registerAnalyticsRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Project not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.get('/api/project/:pid/analytics', async (req, params) => {
         const authErr = requireApiAuth(req);

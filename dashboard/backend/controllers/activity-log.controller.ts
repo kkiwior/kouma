@@ -68,8 +68,6 @@ export function registerActivityLogRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Project not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.get('/api/project/:pid/activity-logs', async (req, params) => {
         const authErr = requireApiAuth(req);

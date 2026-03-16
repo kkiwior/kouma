@@ -58,8 +58,6 @@ export function registerProjectRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Project not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.get('/api/project/:pid/page/:page', async (req, params) => {
         const authErr = requireApiAuth(req);
