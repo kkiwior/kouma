@@ -42,8 +42,6 @@ export function registerWebhookRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Project not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.get('/api/project/:pid/webhooks', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -126,8 +124,6 @@ export function registerWebhookRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Project not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/project/:pid/webhooks', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -240,8 +236,6 @@ export function registerWebhookRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Webhook not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.put('/api/webhook/:wid', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -332,8 +326,6 @@ export function registerWebhookRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Webhook not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.delete('/api/webhook/:wid', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -379,8 +371,6 @@ export function registerWebhookRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Webhook not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/webhook/:wid/test', async (req, params) => {
         const authErr = requireApiAuth(req);

@@ -27,8 +27,6 @@ export function registerDashboardRoutes(router: Router) {
      *                   type: string
      *       401:
      *         description: Unauthorized
-     *       500:
-     *         description: Internal Server Error
      */
     router.get('/api/dashboard', async (req) => {
         const authErr = requireApiAuth(req);

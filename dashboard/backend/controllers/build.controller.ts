@@ -54,8 +54,6 @@ export function registerBuildRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Build or project not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.get('/api/build/:bid', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -121,8 +119,6 @@ export function registerBuildRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/build/rebase/:bid', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -183,8 +179,6 @@ export function registerBuildRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/build/debase/:bid', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -245,8 +239,6 @@ export function registerBuildRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/build/pass/:bid', async (req, params) => {
         const authErr = requireApiAuth(req);

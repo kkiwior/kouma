@@ -73,8 +73,6 @@ export function registerAdminRoutes(router: Router) {
      *         description: Bad request
      *       401:
      *         description: Unauthorized
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/admin/project/create', async (req) => {
         const authErr = requireApiAuth(req);
@@ -176,8 +174,6 @@ export function registerAdminRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/admin/project/config/:pid', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -258,8 +254,6 @@ export function registerAdminRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/admin/project/image/:pid', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -331,8 +325,6 @@ export function registerAdminRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/admin/project/clean/:pid', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -389,8 +381,6 @@ export function registerAdminRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/admin/project/delete/:pid', async (req, params) => {
         const authErr = requireApiAuth(req);

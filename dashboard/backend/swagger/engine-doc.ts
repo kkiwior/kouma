@@ -149,4 +149,128 @@
  *         description: Bad request
  *       401:
  *         description: Unauthorized
+ *
+ * /slave/build/create:
+ *   post:
+ *     tags: [Engine]
+ *     description: Create a new build (staged)
+ *     parameters:
+ *       - in: query
+ *         name: pid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Project ID
+ *       - in: query
+ *         name: buildVersion
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Build version
+ *       - in: header
+ *         name: x-api-key
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Project API Key
+ *     responses:
+ *       200:
+ *         description: Build created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 pid:
+ *                   type: string
+ *                 bid:
+ *                   type: string
+ *                 buildIndex:
+ *                   type: integer
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ *
+ * /slave/images/build/{bid}:
+ *   post:
+ *     tags: [Engine]
+ *     description: Upload a build image
+ *     parameters:
+ *       - in: path
+ *         name: bid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Build ID
+ *       - in: header
+ *         name: x-api-key
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Project API Key
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Image uploaded
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                 receivedImages:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ *
+ * /slave/build/finalize:
+ *   post:
+ *     tags: [Engine]
+ *     description: Finalize a build
+ *     parameters:
+ *       - in: query
+ *         name: bid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Build ID
+ *       - in: header
+ *         name: x-api-key
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Project API Key
+ *     responses:
+ *       200:
+ *         description: Build finalized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 pid:
+ *                   type: string
+ *                 bid:
+ *                   type: string
+ *                 buildIndex:
+ *                   type: integer
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
  */

@@ -71,8 +71,6 @@ export function registerCaseRoutes(router: Router) {
      *         description: Unauthorized
      *       404:
      *         description: Not found
-     *       500:
-     *         description: Internal Server Error
      */
     router.get('/api/case/:cid', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -149,8 +147,6 @@ export function registerCaseRoutes(router: Router) {
      *                   type: boolean
      *       401:
      *         description: Unauthorized
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/case/pass/:cid', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -195,8 +191,6 @@ export function registerCaseRoutes(router: Router) {
      *                   type: boolean
      *       401:
      *         description: Unauthorized
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/case/fail/:cid', async (req, params) => {
         const authErr = requireApiAuth(req);
@@ -249,8 +243,6 @@ export function registerCaseRoutes(router: Router) {
      *                   type: object
      *       401:
      *         description: Unauthorized
-     *       500:
-     *         description: Internal Server Error
      */
     router.post('/api/case/ignoring', async (req) => {
         const authErr = requireApiAuth(req);
