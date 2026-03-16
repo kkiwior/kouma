@@ -21,7 +21,7 @@
         [
             "@semantic-release/exec",
             {
-                "successCmd": "echo \"new_release_published=true\" >> $GITHUB_OUTPUT && echo \"new_release_version=${nextRelease.version}\" >> $GITHUB_OUTPUT"
+                "successCmd": "echo \"new_release_published=true\" >> $GITHUB_OUTPUT && echo \"new_release_version=${nextRelease.version}\" >> $GITHUB_OUTPUT && echo \"last_release_version=${lastRelease.version}\" >> $GITHUB_OUTPUT"
             }
         ]
     ]
