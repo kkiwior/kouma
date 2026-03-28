@@ -2,6 +2,8 @@ import mongoose, { Schema, Model } from 'mongoose';
 import { createEncryptedAPIKey, decryptAPIKey } from '../utils/auth-utils';
 import * as uuidUtils from '../utils/uuid-utils';
 
+export type RetentionPolicyType = 'none' | 'builds' | 'days';
+
 interface IProject {
     pid: string;
     apiKey: string;
@@ -14,6 +16,8 @@ interface IProject {
     projectIgnoringCluster: boolean;
     projectIgnoringClusterSize: number;
     preserveIgnoringOnRebase: boolean;
+    retentionPolicyType?: RetentionPolicyType;
+    retentionPolicyValue?: number;
     labels?: string[];
     createdAt: Date;
 }
@@ -49,6 +53,8 @@ export const ProjectSchema = new Schema<IProject, ProjectModel, IProjectMethods>
     projectIgnoringCluster: { type: Boolean, default: true },
     projectIgnoringClusterSize: { type: Number, default: 50, min: 1, max: 5000 },
     preserveIgnoringOnRebase: { type: Boolean, default: false },
+    retentionPolicyType: { type: String, enum: ['none', 'builds', 'days'], default: 'none' },
+    retentionPolicyValue: { type: Number, default: 0, min: 0 },
     labels: [{ type: String, default: [] }],
     createdAt: { type: Date, default: Date.now },
 });

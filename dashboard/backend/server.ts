@@ -11,6 +11,7 @@ import { registerDashboardRoutes } from './controllers/dashboard.controller.ts';
 import { registerProjectRoutes } from './controllers/project.controller.ts';
 import { registerStatsRoutes } from './controllers/stats.controller.ts';
 import { registerWebhookRoutes } from './controllers/webhook.controller.ts';
+import { retentionService } from './services/retention-service.ts';
 import { jsonResponse, notFound, internalServerError, htmlResponse, serveStatic, logRequest } from './src/helpers.ts';
 import { Router } from './src/router.ts';
 import { connect } from './utils/database-utils.ts';
@@ -165,6 +166,18 @@ async function handleRequest(req: Request): Promise<Response> {
 }
 
 await connect();
+
+const RETENTION_INTERVAL_MS = Number(getEnv('RETENTION_INTERVAL_MS', '3600000')); // default: 1 hour
+
+setInterval(async () => {
+    try {
+        logger.info('Retention worker: starting cleanup cycle');
+        await retentionService.applyRetentionForAllProjects();
+        logger.info('Retention worker: cleanup cycle completed');
+    } catch (error) {
+        logger.error('Retention worker: error during cleanup cycle:', error);
+    }
+}, RETENTION_INTERVAL_MS);
 
 const server = Bun.serve({ port: PORT, fetch: handleRequest });
 

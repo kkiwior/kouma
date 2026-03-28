@@ -79,6 +79,8 @@ class ProjectService {
             projectIgnoringCluster: boolean;
             projectIgnoringClusterSize: number;
             preserveIgnoringOnRebase: boolean;
+            retentionPolicyType: string;
+            retentionPolicyValue: number;
         }>,
     ) {
         return Project.findOneAndUpdate({ pid }, { $set: updates }, { returnDocument: 'after' });

@@ -199,6 +199,15 @@ export function registerAdminRoutes(router: Router) {
             }
             updates.preserveIgnoringOnRebase = !!body.preserveIgnoringOnRebase;
 
+            const retentionPolicyType = body.retentionPolicyType;
+            if (retentionPolicyType === 'none' || retentionPolicyType === 'builds' || retentionPolicyType === 'days') {
+                updates.retentionPolicyType = retentionPolicyType;
+            }
+            const retentionPolicyValue = Number(body.retentionPolicyValue);
+            if (Number.isInteger(retentionPolicyValue) && retentionPolicyValue >= 0) {
+                updates.retentionPolicyValue = retentionPolicyValue;
+            }
+
             await projectService.updateProjectConfig(project.pid, updates);
             await activityLogService.log(
                 project.pid,

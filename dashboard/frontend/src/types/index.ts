@@ -9,6 +9,8 @@ export interface Project {
     labels?: string[];
 }
 
+export type RetentionPolicyType = 'none' | 'builds' | 'days';
+
 export interface ProjectDetail {
     pid: string;
     projectName: string;
@@ -18,6 +20,8 @@ export interface ProjectDetail {
     projectIgnoringCluster: boolean;
     projectIgnoringClusterSize: number;
     preserveIgnoringOnRebase: boolean;
+    retentionPolicyType?: RetentionPolicyType;
+    retentionPolicyValue?: number;
 }
 
 export interface Build {
@@ -111,6 +115,8 @@ export interface ProjectConfig {
     projectIgnoringCluster: boolean;
     projectIgnoringClusterSize: number;
     preserveIgnoringOnRebase: boolean;
+    retentionPolicyType: RetentionPolicyType;
+    retentionPolicyValue: number;
 }
 
 export interface DashboardData {
