@@ -169,7 +169,7 @@ await connect();
 
 const RETENTION_INTERVAL_MS = Number(getEnv('RETENTION_INTERVAL_MS', '3600000')); // default: 1 hour
 
-setInterval(async () => {
+const retentionIntervalId = setInterval(async () => {
     try {
         logger.info('Retention worker: starting cleanup cycle');
         await retentionService.applyRetentionForAllProjects();
@@ -180,5 +180,10 @@ setInterval(async () => {
 }, RETENTION_INTERVAL_MS);
 
 const server = Bun.serve({ port: PORT, fetch: handleRequest });
+
+process.on('SIGTERM', () => {
+    clearInterval(retentionIntervalId);
+    server.stop();
+});
 
 logger.info(`🚀 Kouma Dashboard running on http://localhost:${server.port}`);
