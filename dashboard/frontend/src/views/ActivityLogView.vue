@@ -94,8 +94,20 @@
                         <p class="text-sm text-slate-700 mt-1">{{ log.details }}</p>
                         <div class="flex items-center gap-3 mt-1.5 text-xs text-slate-400">
                             <span>{{ formatTime(log.createdAt) }}</span>
+                            <router-link
+                                v-if="log.entityType === 'build' && log.entityId"
+                                :to="`/build/${log.entityId}`"
+                                class="font-mono hover:text-slate-600 hover:underline transition-colors"
+                                >{{ log.entityType }}:{{ log.entityId }}</router-link
+                            >
+                            <router-link
+                                v-else-if="log.entityType === 'case' && log.entityId"
+                                :to="`/case/${log.entityId}`"
+                                class="font-mono hover:text-slate-600 hover:underline transition-colors"
+                                >{{ log.entityType }}:{{ log.entityId }}</router-link
+                            >
                             <span
-                                v-if="log.entityType && log.entityId"
+                                v-else-if="log.entityType && log.entityId"
                                 class="font-mono"
                                 >{{ log.entityType }}:{{ log.entityId }}</span
                             >
