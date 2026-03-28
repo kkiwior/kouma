@@ -8,8 +8,13 @@ import { Ignoring } from '../models/ignoring';
 import { Webhook } from '../models/webhook';
 import { logger } from './logger.ts';
 
+mongoose.connection.on('error', (err) => logger.error('MongoDB error:', err));
+mongoose.connection.on('disconnected', () => {
+    logger.warn('MongoDB disconnected, reconnecting...');
+    connect();
+});
+
 export async function connect() {
-    mongoose.connection.on('error', logger.error).on('disconnected', connect);
     try {
         await mongoose.connect(mongodbUrl);
         await setupIndexes();
