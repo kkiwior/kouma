@@ -74,8 +74,7 @@ class RetentionService {
 
             candidates = allBuilds.slice(policyValue);
         } else if (policyType === 'days') {
-            const cutoffDate = new Date();
-            cutoffDate.setDate(cutoffDate.getDate() - policyValue);
+            const cutoffDate = new Date(Date.now() - policyValue * 24 * 60 * 60 * 1000);
 
             candidates = await Build.find(
                 { pid, createdAt: { $lt: cutoffDate } },
