@@ -19,5 +19,7 @@ type Project struct {
 	ProjectIgnoringCluster     bool               `bson:"projectIgnoringCluster" json:"projectIgnoringCluster"`
 	ProjectIgnoringClusterSize int                `bson:"projectIgnoringClusterSize" json:"projectIgnoringClusterSize"`
 	PreserveIgnoringOnRebase   bool               `bson:"preserveIgnoringOnRebase" json:"preserveIgnoringOnRebase"`
+	RetentionPolicyType        string             `bson:"retentionPolicyType,omitempty" json:"retentionPolicyType,omitempty"`
+	RetentionPolicyValue       int                `bson:"retentionPolicyValue,omitempty" json:"retentionPolicyValue,omitempty"`
 	CreatedAt                  time.Time          `bson:"createdAt" json:"createdAt"`
 }

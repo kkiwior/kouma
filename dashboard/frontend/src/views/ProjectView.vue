@@ -420,6 +420,39 @@
                                     </span>
                                 </label>
 
+                                <hr class="border-slate-200" />
+
+                                <!-- Retention Policy -->
+                                <div>
+                                    <label class="flex items-center gap-1.5 text-sm font-medium text-slate-700 mb-1">
+                                        Retention Policy
+                                        <InfoTooltip>Controls automatic cleanup of old build screenshots to save disk space. "Keep last X builds" removes screenshots from builds older than the most recent X builds. "Delete older than X days" removes screenshots from builds older than X days. The latest baseline is never deleted.</InfoTooltip>
+                                    </label>
+                                    <select
+                                        v-model="config.retentionPolicyType"
+                                        class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                                    >
+                                        <option value="none">Disabled</option>
+                                        <option value="builds">Keep last X builds</option>
+                                        <option value="days">Delete older than X days</option>
+                                    </select>
+                                </div>
+
+                                <div v-if="config.retentionPolicyType !== 'none'">
+                                    <label class="flex items-center gap-1.5 text-sm font-medium text-slate-700 mb-1">
+                                        {{ config.retentionPolicyType === 'builds' ? 'Number of builds to keep' : 'Number of days to retain' }}
+                                    </label>
+                                    <input
+                                        v-model.number="config.retentionPolicyValue"
+                                        type="number"
+                                        min="1"
+                                        class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                                    />
+                                    <p class="text-xs text-slate-400 mt-1">
+                                        {{ config.retentionPolicyType === 'builds' ? 'Builds older than the most recent X will be removed. The latest baseline is always preserved.' : 'Screenshots from builds older than X days will be removed. The latest baseline is always preserved.' }}
+                                    </p>
+                                </div>
+
                                 <div class="flex justify-end pt-4">
                                     <button
                                         type="submit"
@@ -561,6 +594,8 @@ const config = ref<ProjectConfig>({
     projectIgnoringCluster: false,
     projectIgnoringClusterSize: 2,
     preserveIgnoringOnRebase: false,
+    retentionPolicyType: 'none',
+    retentionPolicyValue: 0,
 });
 
 const paginationPages = computed(() => {
@@ -599,6 +634,8 @@ const loadData = async () => {
             projectIgnoringCluster: data.project.projectIgnoringCluster,
             projectIgnoringClusterSize: data.project.projectIgnoringClusterSize,
             preserveIgnoringOnRebase: data.project.preserveIgnoringOnRebase,
+            retentionPolicyType: data.project.retentionPolicyType || 'none',
+            retentionPolicyValue: data.project.retentionPolicyValue || 0,
         };
     }
 };

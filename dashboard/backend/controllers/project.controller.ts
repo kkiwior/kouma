@@ -78,6 +78,8 @@ export function registerProjectRoutes(router: Router) {
                     projectIgnoringCluster: project.projectIgnoringCluster,
                     projectIgnoringClusterSize: project.projectIgnoringClusterSize,
                     preserveIgnoringOnRebase: project.preserveIgnoringOnRebase,
+                    retentionPolicyType: project.retentionPolicyType || 'none',
+                    retentionPolicyValue: project.retentionPolicyValue || 0,
                 },
                 builds: paginatedBuilds,
             });
