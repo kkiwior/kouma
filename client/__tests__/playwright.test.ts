@@ -28,21 +28,16 @@ describe('KoumaPlaywrightReporter', () => {
     });
 
     test('onTestEnd copies path-based screenshot attachments', () => {
-        const reporter = new KoumaPlaywrightReporter({
-            host: 'http://localhost',
-            apiKey: 'key',
-            pid: 'pid',
-            buildVersion: 'v1',
-        });
+        const reporter = new KoumaPlaywrightReporter({ host: 'http://localhost', apiKey: 'key', pid: 'pid', buildVersion: 'v1' });
 
         const tmpFile = '/tmp/kouma-pw-test-screenshot.png';
         fs.writeFileSync(tmpFile, 'screenshot-data');
 
         try {
-            reporter.onTestEnd({ title: 'test' }, {
-                status: 'passed',
-                attachments: [{ name: 'homepage', contentType: 'image/png', path: tmpFile }],
-            });
+            reporter.onTestEnd(
+                { title: 'test' },
+                { status: 'passed', attachments: [{ name: 'homepage', contentType: 'image/png', path: tmpFile }] },
+            );
 
             const copied = path.join(KOUMA_SCREENSHOTS_FOLDER, 'kouma-pw-test-screenshot.png');
             expect(fs.existsSync(copied)).toBe(true);
@@ -53,17 +48,12 @@ describe('KoumaPlaywrightReporter', () => {
     });
 
     test('onTestEnd writes body-based screenshot attachments', () => {
-        const reporter = new KoumaPlaywrightReporter({
-            host: 'http://localhost',
-            apiKey: 'key',
-            pid: 'pid',
-            buildVersion: 'v1',
-        });
+        const reporter = new KoumaPlaywrightReporter({ host: 'http://localhost', apiKey: 'key', pid: 'pid', buildVersion: 'v1' });
 
-        reporter.onTestEnd({ title: 'test' }, {
-            status: 'passed',
-            attachments: [{ name: 'login', contentType: 'image/png', body: Buffer.from('png-body') }],
-        });
+        reporter.onTestEnd(
+            { title: 'test' },
+            { status: 'passed', attachments: [{ name: 'login', contentType: 'image/png', body: Buffer.from('png-body') }] },
+        );
 
         const dest = path.join(KOUMA_SCREENSHOTS_FOLDER, 'login.png');
         expect(fs.existsSync(dest)).toBe(true);
@@ -71,49 +61,37 @@ describe('KoumaPlaywrightReporter', () => {
     });
 
     test('onTestEnd handles jpeg content type correctly', () => {
-        const reporter = new KoumaPlaywrightReporter({
-            host: 'http://localhost',
-            apiKey: 'key',
-            pid: 'pid',
-            buildVersion: 'v1',
-        });
+        const reporter = new KoumaPlaywrightReporter({ host: 'http://localhost', apiKey: 'key', pid: 'pid', buildVersion: 'v1' });
 
-        reporter.onTestEnd({ title: 'test' }, {
-            status: 'passed',
-            attachments: [{ name: 'photo', contentType: 'image/jpeg', body: Buffer.from('jpeg-body') }],
-        });
+        reporter.onTestEnd(
+            { title: 'test' },
+            { status: 'passed', attachments: [{ name: 'photo', contentType: 'image/jpeg', body: Buffer.from('jpeg-body') }] },
+        );
 
         const dest = path.join(KOUMA_SCREENSHOTS_FOLDER, 'photo.jpeg');
         expect(fs.existsSync(dest)).toBe(true);
     });
 
     test('onTestEnd ignores non-image attachments', () => {
-        const reporter = new KoumaPlaywrightReporter({
-            host: 'http://localhost',
-            apiKey: 'key',
-            pid: 'pid',
-            buildVersion: 'v1',
-        });
+        const reporter = new KoumaPlaywrightReporter({ host: 'http://localhost', apiKey: 'key', pid: 'pid', buildVersion: 'v1' });
 
-        reporter.onTestEnd({ title: 'test' }, {
-            status: 'passed',
-            attachments: [
-                { name: 'trace', contentType: 'application/zip', path: '/tmp/trace.zip' },
-                { name: 'video', contentType: 'video/webm', path: '/tmp/video.webm' },
-            ],
-        });
+        reporter.onTestEnd(
+            { title: 'test' },
+            {
+                status: 'passed',
+                attachments: [
+                    { name: 'trace', contentType: 'application/zip', path: '/tmp/trace.zip' },
+                    { name: 'video', contentType: 'video/webm', path: '/tmp/video.webm' },
+                ],
+            },
+        );
 
         const files = fs.readdirSync(KOUMA_SCREENSHOTS_FOLDER);
         expect(files).toHaveLength(0);
     });
 
     test('tracks passed and total test counts', () => {
-        const reporter = new KoumaPlaywrightReporter({
-            host: 'http://localhost',
-            apiKey: 'key',
-            pid: 'pid',
-            buildVersion: 'v1',
-        });
+        const reporter = new KoumaPlaywrightReporter({ host: 'http://localhost', apiKey: 'key', pid: 'pid', buildVersion: 'v1' });
 
         reporter.onTestEnd({ title: 'test1' }, { status: 'passed', attachments: [] });
         reporter.onTestEnd({ title: 'test2' }, { status: 'failed', attachments: [] });
@@ -189,20 +167,15 @@ describe('KoumaPlaywrightReporter', () => {
         }) as typeof fetch;
 
         try {
-            const reporter = new KoumaPlaywrightReporter({
-                host: 'http://localhost:9999',
-                apiKey: 'key',
-                pid: 'pid',
-                buildVersion: 'v1',
-            });
+            const reporter = new KoumaPlaywrightReporter({ host: 'http://localhost:9999', apiKey: 'key', pid: 'pid', buildVersion: 'v1' });
 
             // Add a screenshot
             const tmpFile = '/tmp/kouma-pw-upload-test.png';
             fs.writeFileSync(tmpFile, 'screenshot-data');
-            reporter.onTestEnd({ title: 'test' }, {
-                status: 'passed',
-                attachments: [{ name: 'homepage', contentType: 'image/png', path: tmpFile }],
-            });
+            reporter.onTestEnd(
+                { title: 'test' },
+                { status: 'passed', attachments: [{ name: 'homepage', contentType: 'image/png', path: tmpFile }] },
+            );
 
             await reporter.onEnd({ status: 'passed' });
 
@@ -234,19 +207,14 @@ describe('KoumaPlaywrightReporter', () => {
         }) as typeof fetch;
 
         try {
-            const reporter = new KoumaPlaywrightReporter({
-                host: 'http://localhost:9999',
-                apiKey: 'key',
-                pid: 'pid',
-                buildVersion: 'v1',
-            });
+            const reporter = new KoumaPlaywrightReporter({ host: 'http://localhost:9999', apiKey: 'key', pid: 'pid', buildVersion: 'v1' });
 
             const tmpFile = '/tmp/kouma-pw-cleanup-test.png';
             fs.writeFileSync(tmpFile, 'screenshot-data');
-            reporter.onTestEnd({ title: 'test' }, {
-                status: 'passed',
-                attachments: [{ name: 'page', contentType: 'image/png', path: tmpFile }],
-            });
+            reporter.onTestEnd(
+                { title: 'test' },
+                { status: 'passed', attachments: [{ name: 'page', contentType: 'image/png', path: tmpFile }] },
+            );
 
             await reporter.onEnd({ status: 'passed' });
 
@@ -285,10 +253,10 @@ describe('KoumaPlaywrightReporter', () => {
 
             const tmpFile = '/tmp/kouma-pw-keep-test.png';
             fs.writeFileSync(tmpFile, 'screenshot-data');
-            reporter.onTestEnd({ title: 'test' }, {
-                status: 'passed',
-                attachments: [{ name: 'page', contentType: 'image/png', path: tmpFile }],
-            });
+            reporter.onTestEnd(
+                { title: 'test' },
+                { status: 'passed', attachments: [{ name: 'page', contentType: 'image/png', path: tmpFile }] },
+            );
 
             await reporter.onEnd({ status: 'passed' });
 

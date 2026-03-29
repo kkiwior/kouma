@@ -160,11 +160,7 @@
                             :key="s"
                             @click="speed = s"
                             class="px-2 py-1 text-xs font-mono rounded-md transition-colors cursor-pointer"
-                            :class="
-                                speed === s
-                                    ? 'bg-slate-900 text-white'
-                                    : 'text-slate-500 hover:bg-slate-100'
-                            "
+                            :class="speed === s ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'"
                         >
                             {{ s }}x
                         </button>
@@ -172,9 +168,7 @@
 
                     <!-- Frame Info -->
                     <div class="flex items-center gap-3 text-xs text-slate-400">
-                        <span class="font-mono">
-                            Frame {{ currentFrame + 1 }}/{{ frames.length }}
-                        </span>
+                        <span class="font-mono"> Frame {{ currentFrame + 1 }}/{{ frames.length }} </span>
                         <span
                             v-if="frames[currentFrame]"
                             class="font-mono"
@@ -189,8 +183,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue';
 import { useGifDecoder } from '@/composables/useGifDecoder';
+import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue';
 
 const props = defineProps<{
     src: string;
@@ -278,9 +272,16 @@ function onScrub(e: Event) {
 
 function handleKeydown(e: KeyboardEvent) {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-    if (e.key === 'ArrowRight' || e.key === 'd') { e.preventDefault(); nextFrame(); }
-    else if (e.key === 'ArrowLeft' || e.key === 'a') { e.preventDefault(); prevFrame(); }
-    else if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+    if (e.key === 'ArrowRight' || e.key === 'd') {
+        e.preventDefault();
+        nextFrame();
+    } else if (e.key === 'ArrowLeft' || e.key === 'a') {
+        e.preventDefault();
+        prevFrame();
+    } else if (e.key === ' ') {
+        e.preventDefault();
+        togglePlay();
+    }
 }
 
 watch(speed, () => {
@@ -290,15 +291,24 @@ watch(speed, () => {
     }
 });
 
-watch(() => props.src, (newSrc) => {
-    stopPlaying();
-    currentFrame.value = 0;
-    decode(newSrc).then(() => { nextTick(() => renderFrame(0)); });
-});
+watch(
+    () => props.src,
+    (newSrc) => {
+        stopPlaying();
+        currentFrame.value = 0;
+        decode(newSrc).then(() => {
+            nextTick(() => renderFrame(0));
+        });
+    },
+);
 
 onMounted(() => {
-    decode(props.src).then(() => { nextTick(() => renderFrame(0)); });
+    decode(props.src).then(() => {
+        nextTick(() => renderFrame(0));
+    });
 });
 
-onUnmounted(() => { stopPlaying(); });
+onUnmounted(() => {
+    stopPlaying();
+});
 </script>

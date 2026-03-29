@@ -352,7 +352,11 @@
                                 <div>
                                     <label class="flex items-center gap-1.5 text-sm font-medium text-slate-700 mb-1">
                                         Color Threshold
-                                        <InfoTooltip>Controls how sensitive the pixel color comparison is. A lower value (e.g. 0.05) detects even subtle color changes, while a higher value (e.g. 0.5) ignores minor differences. Default is 0.1.</InfoTooltip>
+                                        <InfoTooltip
+                                            >Controls how sensitive the pixel color comparison is. A lower value (e.g. 0.05) detects even
+                                            subtle color changes, while a higher value (e.g. 0.5) ignores minor differences. Default is
+                                            0.1.</InfoTooltip
+                                        >
                                     </label>
                                     <input
                                         v-model.number="config.projectColorThreshold"
@@ -374,7 +378,10 @@
                                     />
                                     <span class="flex items-center gap-1.5 text-sm font-medium text-slate-700">
                                         Detect Antialiasing
-                                        <InfoTooltip>When enabled, the comparison engine attempts to detect antialiased pixels (smoothed edges) and exclude them from the diff, reducing false positives on text and shape edges.</InfoTooltip>
+                                        <InfoTooltip
+                                            >When enabled, the comparison engine attempts to detect antialiased pixels (smoothed edges) and
+                                            exclude them from the diff, reducing false positives on text and shape edges.</InfoTooltip
+                                        >
                                     </span>
                                 </label>
 
@@ -387,7 +394,11 @@
                                     />
                                     <span class="flex items-center gap-1.5 text-sm font-medium text-slate-700">
                                         Enable Ignoring Cluster
-                                        <InfoTooltip>Groups nearby differing pixels into rectangular clusters using a grid. When disabled, each differing pixel is treated individually. Enable this to get cleaner, more useful ignore regions.</InfoTooltip>
+                                        <InfoTooltip
+                                            >Groups nearby differing pixels into rectangular clusters using a grid. When disabled, each
+                                            differing pixel is treated individually. Enable this to get cleaner, more useful ignore
+                                            regions.</InfoTooltip
+                                        >
                                     </span>
                                 </label>
 
@@ -395,7 +406,11 @@
                                 <div v-if="config.projectIgnoringCluster">
                                     <label class="flex items-center gap-1.5 text-sm font-medium text-slate-700 mb-1">
                                         Ignoring Cluster Size
-                                        <InfoTooltip>The grid cell size (in pixels) used to group differences into clusters. A smaller value creates more fine-grained clusters, while a larger value merges nearby differences into bigger regions. Default is 50.</InfoTooltip>
+                                        <InfoTooltip
+                                            >The grid cell size (in pixels) used to group differences into clusters. A smaller value creates
+                                            more fine-grained clusters, while a larger value merges nearby differences into bigger regions.
+                                            Default is 50.</InfoTooltip
+                                        >
                                     </label>
                                     <input
                                         v-model.number="config.projectIgnoringClusterSize"
@@ -416,7 +431,11 @@
                                     />
                                     <span class="flex items-center gap-1.5 text-sm font-medium text-slate-700">
                                         Preserve Ignoring on Rebase
-                                        <InfoTooltip>When enabled, manually marked ignore regions are kept after rebasing a build to a new baseline. When disabled, all ignore regions are cleared on rebase, requiring you to re-mark them.</InfoTooltip>
+                                        <InfoTooltip
+                                            >When enabled, manually marked ignore regions are kept after rebasing a build to a new baseline.
+                                            When disabled, all ignore regions are cleared on rebase, requiring you to re-mark
+                                            them.</InfoTooltip
+                                        >
                                     </span>
                                 </label>
 
@@ -426,7 +445,12 @@
                                 <div>
                                     <label class="flex items-center gap-1.5 text-sm font-medium text-slate-700 mb-1">
                                         Retention Policy
-                                        <InfoTooltip>Controls automatic cleanup of old build screenshots to save disk space. "Keep last X builds" removes screenshots from builds older than the most recent X builds. "Delete older than X days" removes screenshots from builds older than X days. The latest baseline is never deleted.</InfoTooltip>
+                                        <InfoTooltip
+                                            >Controls automatic cleanup of old build screenshots to save disk space. "Keep last X builds"
+                                            removes screenshots from builds older than the most recent X builds. "Delete older than X days"
+                                            removes screenshots from builds older than X days. The latest baseline is never
+                                            deleted.</InfoTooltip
+                                        >
                                     </label>
                                     <select
                                         v-model="config.retentionPolicyType"
@@ -440,7 +464,11 @@
 
                                 <div v-if="config.retentionPolicyType !== 'none'">
                                     <label class="flex items-center gap-1.5 text-sm font-medium text-slate-700 mb-1">
-                                        {{ config.retentionPolicyType === 'builds' ? 'Number of builds to keep' : 'Number of days to retain' }}
+                                        {{
+                                            config.retentionPolicyType === 'builds'
+                                                ? 'Number of builds to keep'
+                                                : 'Number of days to retain'
+                                        }}
                                     </label>
                                     <input
                                         v-model.number="config.retentionPolicyValue"
@@ -449,7 +477,11 @@
                                         class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
                                     />
                                     <p class="text-xs text-slate-400 mt-1">
-                                        {{ config.retentionPolicyType === 'builds' ? 'Builds older than the most recent X will be removed. The latest baseline is always preserved.' : 'Screenshots from builds older than X days will be removed. The latest baseline is always preserved.' }}
+                                        {{
+                                            config.retentionPolicyType === 'builds'
+                                                ? 'Builds older than the most recent X will be removed. The latest baseline is always preserved.'
+                                                : 'Screenshots from builds older than X days will be removed. The latest baseline is always preserved.'
+                                        }}
                                     </p>
                                 </div>
 
@@ -555,9 +587,9 @@
 </template>
 
 <script setup lang="ts">
+import InfoTooltip from '@/components/InfoTooltip.vue';
 import { useApi } from '@/composables/useApi';
 import { useFormatters } from '@/composables/useFormatters';
-import InfoTooltip from '@/components/InfoTooltip.vue';
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { Build, ProjectConfig } from '@/types';

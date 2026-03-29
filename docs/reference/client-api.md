@@ -23,7 +23,8 @@ const client = new KoumaClient(config: KoumaClientConfig);
 
 ### newBuildStaged(options)
 
-Create a build, upload screenshots to a build-specific staging area, and finalize. This is the **recommended method** — safe for parallel builds.
+Create a build, upload screenshots to a build-specific staging area, and finalize. This is the **recommended method** — safe for parallel
+builds.
 
 ```typescript
 const result = await client.newBuildStaged(options: NewBuildOptions): Promise<InitializedBuild | undefined>;
@@ -43,11 +44,11 @@ const result = await client.createBuild(options: CreateBuildOptions): Promise<In
 
 #### CreateBuildOptions
 
-| Property       | Type                      | Required | Description                                   |
-| -------------- | ------------------------- | -------- | --------------------------------------------- |
-| `pid`          | `string`                  | Yes      | Project ID                                    |
-| `buildVersion` | `string`                  | Yes      | Build version identifier (e.g., git SHA)      |
-| `metadata`     | `Record<string, string>`  | No       | Custom metadata (keys prefixed with `meta_`)  |
+| Property       | Type                     | Required | Description                                  |
+| -------------- | ------------------------ | -------- | -------------------------------------------- |
+| `pid`          | `string`                 | Yes      | Project ID                                   |
+| `buildVersion` | `string`                 | Yes      | Build version identifier (e.g., git SHA)     |
+| `metadata`     | `Record<string, string>` | No       | Custom metadata (keys prefixed with `meta_`) |
 
 ---
 
@@ -61,9 +62,9 @@ const result = await client.uploadBuildScreenshot(bid: string, filePath: string)
 
 #### UploadResult
 
-| Property         | Type       | Description                              |
-| ---------------- | ---------- | ---------------------------------------- |
-| `receivedImages` | `string[]` | Filenames of images the server received  |
+| Property         | Type       | Description                             |
+| ---------------- | ---------- | --------------------------------------- |
+| `receivedImages` | `string[]` | Filenames of images the server received |
 
 ---
 
@@ -196,13 +197,9 @@ See the [Cypress Integration](/guide/cypress) guide for usage.
 
 ```typescript
 // playwright.config.ts
-import { defineConfig } from "@playwright/test";
+import { defineConfig } from '@playwright/test';
 
-export default defineConfig({
-    reporter: [
-        ["kouma/playwright", reporterOptions],
-    ],
-});
+export default defineConfig({ reporter: [['kouma/playwright', reporterOptions]] });
 ```
 
 #### PlaywrightReporterOptions

@@ -81,11 +81,11 @@ Upload screenshots, initialize a build, and run comparison in a single request. 
 
 ## Configuration
 
-| Variable               | Default | Description                                   |
-| ---------------------- | ------- | --------------------------------------------- |
-| `KOUMA_ENV`            | —       | Set to `docker` for containerized deployment  |
-| `KOUMA_FS_HOST_URL`    | —       | File server URL for screenshot storage        |
-| `KOUMA_DB_HOST`        | —       | MongoDB host                                  |
-| `KOUMA_DB_USERNAME`    | —       | MongoDB username                              |
-| `KOUMA_DB_PASSWORD`    | —       | MongoDB password                              |
-| `PORT`                 | `3002`  | Engine service port                           |
+| Variable            | Default | Description                                  |
+| ------------------- | ------- | -------------------------------------------- |
+| `KOUMA_ENV`         | —       | Set to `docker` for containerized deployment |
+| `KOUMA_FS_HOST_URL` | —       | File server URL for screenshot storage       |
+| `KOUMA_DB_HOST`     | —       | MongoDB host                                 |
+| `KOUMA_DB_USERNAME` | —       | MongoDB username                             |
+| `KOUMA_DB_PASSWORD` | —       | MongoDB password                             |
+| `PORT`              | `3002`  | Engine service port                          |

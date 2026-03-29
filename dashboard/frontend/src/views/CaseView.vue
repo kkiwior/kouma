@@ -199,25 +199,25 @@
                         </div>
 
                         <div class="flex gap-2">
-                        <button
-                            @click="handlePass"
-                            :disabled="actionLoading"
-                            class="px-4 py-2 text-sm font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors cursor-pointer disabled:opacity-50"
-                        >
-                            ✓ Pass
-                        </button>
-                        <button
-                            @click="handleFail"
-                            :disabled="actionLoading"
-                            class="px-4 py-2 text-sm font-medium text-red-700 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors cursor-pointer disabled:opacity-50"
-                        >
-                            ✗ Fail
-                        </button>
+                            <button
+                                @click="handlePass"
+                                :disabled="actionLoading"
+                                class="px-4 py-2 text-sm font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors cursor-pointer disabled:opacity-50"
+                            >
+                                ✓ Pass
+                            </button>
+                            <button
+                                @click="handleFail"
+                                :disabled="actionLoading"
+                                class="px-4 py-2 text-sm font-medium text-red-700 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors cursor-pointer disabled:opacity-50"
+                            >
+                                ✗ Fail
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
         <!-- Content -->
         <div
@@ -313,7 +313,10 @@
                             label-b="Baseline"
                         />
                         <!-- Static images: original layout -->
-                        <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div
+                            v-else
+                            class="grid grid-cols-1 lg:grid-cols-2 gap-6"
+                        >
                             <div class="bg-white rounded-xl border border-slate-200 p-6">
                                 <h3 class="text-sm font-medium text-slate-500 mb-3">Latest</h3>
                                 <img
@@ -484,10 +487,10 @@
 </template>
 
 <script setup lang="ts">
-import ImageCompareSlider from '@/components/ImageCompareSlider.vue';
+import GifCompareSlider from '@/components/GifCompareSlider.vue';
 import GifFramePlayer from '@/components/GifFramePlayer.vue';
 import GifSyncPlayer from '@/components/GifSyncPlayer.vue';
-import GifCompareSlider from '@/components/GifCompareSlider.vue';
+import ImageCompareSlider from '@/components/ImageCompareSlider.vue';
 import { useApi } from '@/composables/useApi';
 import { useFormatters } from '@/composables/useFormatters';
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
@@ -498,7 +501,6 @@ function isGif(url: string | undefined | null): boolean {
     if (!url) return false;
     return url.toLowerCase().endsWith('.gif');
 }
-
 
 const props = defineProps<{
     cid: string;

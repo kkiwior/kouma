@@ -13,12 +13,9 @@ npm install kouma-client
 ## Library Usage
 
 ```ts
-import { KoumaClient } from "kouma";
+import { KoumaClient } from 'kouma';
 
-const client = new KoumaClient({
-  host: "https://kouma.example.com",
-  apiKey: "your-api-key",
-});
+const client = new KoumaClient({ host: 'https://kouma.example.com', apiKey: 'your-api-key' });
 ```
 
 ### Upload screenshots and create a build (async)
@@ -27,14 +24,14 @@ Screenshots are uploaded one-by-one, then the build is initialized and compariso
 
 ```ts
 const build = await client.newBuild({
-  pid: "project-id",
-  buildVersion: "abc1234",
-  screenshotsDirectory: "./screenshots",
-  metadata: { branch: "main", env: "ci" },
+    pid: 'project-id',
+    buildVersion: 'abc1234',
+    screenshotsDirectory: './screenshots',
+    metadata: { branch: 'main', env: 'ci' },
 });
 
 if (build) {
-  console.log(`Build ${build.bid} created (index: ${build.buildIndex})`);
+    console.log(`Build ${build.bid} created (index: ${build.buildIndex})`);
 }
 ```
 
@@ -43,14 +40,10 @@ if (build) {
 All screenshots are sent in one multipart request. The server uploads, initializes, and compares synchronously.
 
 ```ts
-const result = await client.newBuildSync({
-  pid: "project-id",
-  buildVersion: "abc1234",
-  screenshotsDirectory: "./screenshots",
-});
+const result = await client.newBuildSync({ pid: 'project-id', buildVersion: 'abc1234', screenshotsDirectory: './screenshots' });
 
 if (result) {
-  console.log(`${result.status} — ${result.result}`); // "completed — passed"
+    console.log(`${result.status} — ${result.result}`); // "completed — passed"
 }
 ```
 
@@ -58,11 +51,11 @@ if (result) {
 
 ```ts
 // By build ID
-const stats = await client.getBuildStats("build-id");
+const stats = await client.getBuildStats('build-id');
 console.log(stats.status, stats.result);
 
 // Latest build for a project
-const latest = await client.getLatestBuildStats("project-id");
+const latest = await client.getLatestBuildStats('project-id');
 console.log(`Build #${latest.index}: ${latest.result}`);
 ```
 
@@ -97,39 +90,39 @@ kouma latest-build-stats --host https://kouma.example.com --api-key abc123 --pid
 
 ### Environment Variables
 
-| Variable | Description |
-| --- | --- |
-| `KOUMA_HOST` | Default for `--host` |
+| Variable        | Description             |
+| --------------- | ----------------------- |
+| `KOUMA_HOST`    | Default for `--host`    |
 | `KOUMA_API_KEY` | Default for `--api-key` |
-| `KOUMA_PID` | Default for `--pid` |
+| `KOUMA_PID`     | Default for `--pid`     |
 
 ## Cypress Plugin
 
 ```ts
 // cypress.config.ts
-import { createCypressPlugin } from "kouma/cypress";
+import { createCypressPlugin } from 'kouma/cypress';
 
 export default defineConfig({
-  e2e: {
-    setupNodeEvents(on) {
-      createCypressPlugin(on, {
-        host: "https://kouma.example.com",
-        apiKey: "your-api-key",
-        pid: "project-id",
-        buildVersion: process.env.GIT_SHA ?? "local",
-      });
+    e2e: {
+        setupNodeEvents(on) {
+            createCypressPlugin(on, {
+                host: 'https://kouma.example.com',
+                apiKey: 'your-api-key',
+                pid: 'project-id',
+                buildVersion: process.env.GIT_SHA ?? 'local',
+            });
+        },
     },
-  },
 });
 ```
 
 ### Plugin Options
 
-| Option | Default | Description |
-| --- | --- | --- |
-| `triggerVisualTesting` | `true` | Trigger visual testing after the run |
-| `triggerOnAllPassed` | `true` | Only trigger if all tests passed |
-| `removeScreenshotsAfterUpload` | `true` | Clean up screenshots after upload |
+| Option                         | Default | Description                          |
+| ------------------------------ | ------- | ------------------------------------ |
+| `triggerVisualTesting`         | `true`  | Trigger visual testing after the run |
+| `triggerOnAllPassed`           | `true`  | Only trigger if all tests passed     |
+| `removeScreenshotsAfterUpload` | `true`  | Clean up screenshots after upload    |
 
 ## Supported Image Formats
 

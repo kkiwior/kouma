@@ -3,8 +3,8 @@ import { mongodbUrl } from '../config/env.config';
 import { ActivityLog } from '../models/activity-log';
 import { Build } from '../models/build';
 import { Case } from '../models/case';
-import { Project } from '../models/project';
 import { Ignoring } from '../models/ignoring';
+import { Project } from '../models/project';
 import { Webhook } from '../models/webhook';
 import { logger } from './logger.ts';
 

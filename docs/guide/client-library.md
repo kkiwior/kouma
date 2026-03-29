@@ -1,7 +1,7 @@
 # Client Library
 
-The `kouma-client` npm package provides a TypeScript/JavaScript client for interacting with the Kouma API. It includes a programmatic API, a CLI,
-a Cypress plugin, and a Playwright reporter — all with zero runtime dependencies.
+The `kouma-client` npm package provides a TypeScript/JavaScript client for interacting with the Kouma API. It includes a programmatic API, a
+CLI, a Cypress plugin, and a Playwright reporter — all with zero runtime dependencies.
 
 ## Installation
 
@@ -47,8 +47,8 @@ const build = await client.newBuildStaged({
 // Returns: { pid, bid, buildIndex }
 ```
 
-This is a **three-step process**: create build → upload screenshots → finalize. Each build gets its own staging
-directory on the server, so multiple builds can run in parallel without conflicts.
+This is a **three-step process**: create build → upload screenshots → finalize. Each build gets its own staging directory on the server, so
+multiple builds can run in parallel without conflicts.
 
 ### `newBuild(options)` (deprecated)
 
@@ -59,9 +59,7 @@ const build = await client.newBuild({ pid: 'project-id', buildVersion: 'v1.0.0',
 // Returns: { pid, bid, buildIndex }
 ```
 
-::: warning
-This method uploads to a shared directory and may cause race conditions in parallel builds. Use `newBuildStaged` instead.
-:::
+::: warning This method uploads to a shared directory and may cause race conditions in parallel builds. Use `newBuildStaged` instead. :::
 
 ### `newBuildSync(options)` (deprecated)
 
@@ -72,9 +70,7 @@ const build = await client.newBuildSync({ pid: 'project-id', buildVersion: 'v1.0
 // Returns: { pid, bid, buildIndex, status, result }
 ```
 
-::: warning
-This method uploads to a shared directory and may cause race conditions in parallel builds. Use `newBuildStaged` instead.
-:::
+::: warning This method uploads to a shared directory and may cause race conditions in parallel builds. Use `newBuildStaged` instead. :::
 
 ### Staged Build Flow (low-level)
 
@@ -119,11 +115,7 @@ await client.newBuildStaged({
     pid: 'project-id',
     buildVersion: 'v1.0.0',
     screenshotsDirectory: './screenshots',
-    metadata: {
-        branch: 'feature/login',
-        commit: 'abc1234',
-        pr: '42',
-    },
+    metadata: { branch: 'feature/login', commit: 'abc1234', pr: '42' },
 });
 ```
 
@@ -153,7 +145,6 @@ See the [Playwright Integration](/guide/playwright) guide for details.
 - **Forbidden characters in filenames**: `<>:"/\|?*`
 - **Directory**: The `screenshotsDirectory` is scanned for supported image files
 - The filename (without extension) becomes the test case name in Kouma
-
 
 ## Node.js Compatibility
 

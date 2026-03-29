@@ -460,11 +460,7 @@ export class KoumaClient {
             return undefined;
         }
 
-        const build = await this.createBuild({
-            pid: options.pid,
-            buildVersion: options.buildVersion,
-            metadata: options.metadata,
-        });
+        const build = await this.createBuild({ pid: options.pid, buildVersion: options.buildVersion, metadata: options.metadata });
 
         for (const filePath of files) {
             const result = await this.uploadBuildScreenshot(build.bid, filePath);

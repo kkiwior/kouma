@@ -35,7 +35,9 @@
                             ref="canvasA"
                             class="max-w-full h-auto rounded-lg shadow-sm block"
                         />
-                        <div class="absolute top-3 right-3 px-2.5 py-1 bg-black/60 backdrop-blur-sm text-white text-xs font-mono rounded-lg">
+                        <div
+                            class="absolute top-3 right-3 px-2.5 py-1 bg-black/60 backdrop-blur-sm text-white text-xs font-mono rounded-lg"
+                        >
                             {{ currentFrame + 1 }} / {{ decoderA.frames.value.length }}
                         </div>
                     </div>
@@ -47,7 +49,9 @@
                             ref="canvasB"
                             class="max-w-full h-auto rounded-lg shadow-sm block"
                         />
-                        <div class="absolute top-3 right-3 px-2.5 py-1 bg-black/60 backdrop-blur-sm text-white text-xs font-mono rounded-lg">
+                        <div
+                            class="absolute top-3 right-3 px-2.5 py-1 bg-black/60 backdrop-blur-sm text-white text-xs font-mono rounded-lg"
+                        >
                             {{ currentFrame + 1 }} / {{ decoderB.frames.value.length }}
                         </div>
                     </div>
@@ -64,8 +68,18 @@
                         class="p-1.5 rounded-lg border border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                         title="Previous frame (←)"
                     >
-                        <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        <svg
+                            class="w-4 h-4 text-slate-600"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M15 19l-7-7 7-7"
+                            />
                         </svg>
                     </button>
 
@@ -84,8 +98,18 @@
                         class="p-1.5 rounded-lg border border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                         title="Next frame (→)"
                     >
-                        <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        <svg
+                            class="w-4 h-4 text-slate-600"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"
+                            />
                         </svg>
                     </button>
                 </div>
@@ -97,17 +121,27 @@
                             @click="goToFirst"
                             :disabled="playing"
                             class="px-2.5 py-1.5 text-xs font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-                        >⏮</button>
+                        >
+                            ⏮
+                        </button>
                         <button
                             @click="togglePlay"
                             class="px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer"
-                            :class="playing ? 'bg-slate-900 text-white hover:bg-slate-800' : 'bg-white text-slate-600 border border-slate-300 hover:bg-slate-50'"
-                        >{{ playing ? '⏸ Pause' : '▶ Play' }}</button>
+                            :class="
+                                playing
+                                    ? 'bg-slate-900 text-white hover:bg-slate-800'
+                                    : 'bg-white text-slate-600 border border-slate-300 hover:bg-slate-50'
+                            "
+                        >
+                            {{ playing ? '⏸ Pause' : '▶ Play' }}
+                        </button>
                         <button
                             @click="goToLast"
                             :disabled="playing"
                             class="px-2.5 py-1.5 text-xs font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-                        >⏭</button>
+                        >
+                            ⏭
+                        </button>
                     </div>
 
                     <div class="flex items-center gap-2">
@@ -118,7 +152,9 @@
                             @click="speed = s"
                             class="px-2 py-1 text-xs font-mono rounded-md transition-colors cursor-pointer"
                             :class="speed === s ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'"
-                        >{{ s }}x</button>
+                        >
+                            {{ s }}x
+                        </button>
                     </div>
 
                     <div class="flex items-center gap-3 text-xs text-slate-400">
@@ -126,7 +162,8 @@
                         <span
                             v-if="decoderA.frames.value[currentFrame]"
                             class="font-mono"
-                        >{{ decoderA.frames.value[currentFrame].delay }}ms</span>
+                            >{{ decoderA.frames.value[currentFrame].delay }}ms</span
+                        >
                     </div>
                 </div>
             </div>
@@ -135,8 +172,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 import { useGifDecoder } from '@/composables/useGifDecoder';
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 
 const props = defineProps<{
     srcA: string;
@@ -176,7 +213,10 @@ function startPlaying() {
 
 function stopPlaying() {
     playing.value = false;
-    if (animationTimer) { clearTimeout(animationTimer); animationTimer = null; }
+    if (animationTimer) {
+        clearTimeout(animationTimer);
+        animationTimer = null;
+    }
 }
 
 function scheduleNext() {
@@ -205,8 +245,17 @@ function prevFrame() {
     renderBoth(prev);
 }
 
-function goToFirst() { if (playing.value) return; currentFrame.value = 0; renderBoth(0); }
-function goToLast() { if (playing.value) return; const l = totalFrames.value - 1; currentFrame.value = l; renderBoth(l); }
+function goToFirst() {
+    if (playing.value) return;
+    currentFrame.value = 0;
+    renderBoth(0);
+}
+function goToLast() {
+    if (playing.value) return;
+    const l = totalFrames.value - 1;
+    currentFrame.value = l;
+    renderBoth(l);
+}
 
 function onScrub(e: Event) {
     const val = parseInt((e.target as HTMLInputElement).value);
@@ -217,13 +266,23 @@ function onScrub(e: Event) {
 
 function handleKeydown(e: KeyboardEvent) {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-    if (e.key === 'ArrowRight' || e.key === 'd') { e.preventDefault(); nextFrame(); }
-    else if (e.key === 'ArrowLeft' || e.key === 'a') { e.preventDefault(); prevFrame(); }
-    else if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+    if (e.key === 'ArrowRight' || e.key === 'd') {
+        e.preventDefault();
+        nextFrame();
+    } else if (e.key === 'ArrowLeft' || e.key === 'a') {
+        e.preventDefault();
+        prevFrame();
+    } else if (e.key === ' ') {
+        e.preventDefault();
+        togglePlay();
+    }
 }
 
 watch(speed, () => {
-    if (playing.value) { if (animationTimer) clearTimeout(animationTimer); scheduleNext(); }
+    if (playing.value) {
+        if (animationTimer) clearTimeout(animationTimer);
+        scheduleNext();
+    }
 });
 
 async function loadBoth() {
@@ -234,7 +293,10 @@ async function loadBoth() {
     renderBoth(0);
 }
 
-watch(() => [props.srcA, props.srcB], () => loadBoth());
+watch(
+    () => [props.srcA, props.srcB],
+    () => loadBoth(),
+);
 onMounted(() => loadBoth());
 onUnmounted(() => stopPlaying());
 </script>

@@ -7,7 +7,8 @@ your application by comparing screenshots against a known baseline.
 
 - **Web Dashboard** — inspect test results, review visual mismatches, and maintain baseline builds
 - **Engine Service** — compare the latest screenshots against baseline screenshots using pixel-level difference analysis
-- **Webhooks** -push build results to external systems through HTTP callbacks, enabling integrations with CI/CD pipelines, chat tools, or custom automation workflows.
+- **Webhooks** -push build results to external systems through HTTP callbacks, enabling integrations with CI/CD pipelines, chat tools, or
+  custom automation workflows.
 - **Client Library & CLI** — upload screenshots and trigger comparisons from your CI/CD pipeline or test framework
 - **Cypress Integration** — built-in plugin for automatic screenshot collection and upload
 - **Playwright Integration** — built-in reporter for automatic screenshot collection and upload
@@ -25,11 +26,11 @@ your application by comparing screenshots against a known baseline.
 
 Kouma consists of three main services:
 
-| Service       | Technology  | Purpose                        |
-| ------------- |-------------| ------------------------------ |
-| **Dashboard** | Bun + Vue 3 | Web UI and REST API            |
-| **Engine**    | Go          | Screenshot comparison          |
-| **MongoDB**   | MongoDB     | Data storage                   |
+| Service       | Technology  | Purpose               |
+| ------------- | ----------- | --------------------- |
+| **Dashboard** | Bun + Vue 3 | Web UI and REST API   |
+| **Engine**    | Go          | Screenshot comparison |
+| **MongoDB**   | MongoDB     | Data storage          |
 
 All services run as Docker containers and communicate through an internal network.
 

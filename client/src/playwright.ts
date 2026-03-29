@@ -29,13 +29,7 @@ interface PlaywrightTestCase {
 
 const KOUMA_SCREENSHOTS_FOLDER = './kouma-pw-screenshots';
 
-const IMAGE_CONTENT_TYPES = new Set([
-    'image/png',
-    'image/jpeg',
-    'image/bmp',
-    'image/webp',
-    'image/gif',
-]);
+const IMAGE_CONTENT_TYPES = new Set(['image/png', 'image/jpeg', 'image/bmp', 'image/webp', 'image/gif']);
 
 /** @internal */
 function removeScreenshotsFolder(): void {

@@ -7,7 +7,14 @@ import { projectService } from '../services/project-service.ts';
 import { parseJsonBody, jsonResponse, notFound, internalServerError } from '../src/helpers.ts';
 import { Router } from '../src/router.ts';
 import { logger } from '../utils/logger.ts';
-import { requireApiAuth, safeErrorMessage, checkAndUpdateBuildResult, getHost, getUserFromRequest, toRelativePath } from '../utils/server-utils.ts';
+import {
+    requireApiAuth,
+    safeErrorMessage,
+    checkAndUpdateBuildResult,
+    getHost,
+    getUserFromRequest,
+    toRelativePath,
+} from '../utils/server-utils.ts';
 
 export function registerCaseRoutes(router: Router) {
     /**

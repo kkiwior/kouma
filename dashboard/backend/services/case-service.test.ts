@@ -82,7 +82,11 @@ describe('CaseService', () => {
 
         it('should return testCase, nextCase, and null prevCase when testCase is first', async () => {
             const mockCase = { cid: 'cid1', bid: 'b1' };
-            const mockFamilyCases = [{ cid: 'cid1', bid: 'b1' }, { cid: 'cid2', bid: 'b1' }, { cid: 'cid3', bid: 'b1' }];
+            const mockFamilyCases = [
+                { cid: 'cid1', bid: 'b1' },
+                { cid: 'cid2', bid: 'b1' },
+                { cid: 'cid3', bid: 'b1' },
+            ];
 
             (Case.findOne as any).mockReturnValue({ lean: () => mockCase });
             (Case.find as any).mockReturnValue({ lean: () => mockFamilyCases });
@@ -94,7 +98,11 @@ describe('CaseService', () => {
 
         it('should return testCase, prevCase, and nextCase when testCase is in middle', async () => {
             const mockCase = { cid: 'cid2', bid: 'b1' };
-            const mockFamilyCases = [{ cid: 'cid1', bid: 'b1' }, { cid: 'cid2', bid: 'b1' }, { cid: 'cid3', bid: 'b1' }];
+            const mockFamilyCases = [
+                { cid: 'cid1', bid: 'b1' },
+                { cid: 'cid2', bid: 'b1' },
+                { cid: 'cid3', bid: 'b1' },
+            ];
 
             (Case.findOne as any).mockReturnValue({ lean: () => mockCase });
             (Case.find as any).mockReturnValue({ lean: () => mockFamilyCases });
@@ -106,7 +114,11 @@ describe('CaseService', () => {
 
         it('should return testCase, prevCase, and null nextCase when testCase is last', async () => {
             const mockCase = { cid: 'cid3', bid: 'b1' };
-            const mockFamilyCases = [{ cid: 'cid1', bid: 'b1' }, { cid: 'cid2', bid: 'b1' }, { cid: 'cid3', bid: 'b1' }];
+            const mockFamilyCases = [
+                { cid: 'cid1', bid: 'b1' },
+                { cid: 'cid2', bid: 'b1' },
+                { cid: 'cid3', bid: 'b1' },
+            ];
 
             (Case.findOne as any).mockReturnValue({ lean: () => mockCase });
             (Case.find as any).mockReturnValue({ lean: () => mockFamilyCases });
