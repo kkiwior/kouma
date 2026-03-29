@@ -1,4 +1,4 @@
-import { Case, ICase } from '../models/case';
+import { Case } from '../models/case';
 
 
 class CaseService {
