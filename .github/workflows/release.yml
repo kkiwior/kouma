@@ -57,7 +57,7 @@ jobs:
                   for component in dashboard engine helm; do
                       git tag "${component}-v${VERSION}"
                   done
-                
+
                   if [ -z "$LAST_VERSION" ] || [ "$LAST_VERSION" = "undefined" ]; then
                       git tag "client-v${VERSION}"
                   elif ! git diff --quiet "v${LAST_VERSION}"..HEAD -- client/; then
@@ -65,7 +65,7 @@ jobs:
                   else
                       echo "No changes in client since v${LAST_VERSION}, skipping client tag."
                   fi
-                
+
                   git push origin --tags
 
             - name: Trigger publish workflow

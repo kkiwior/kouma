@@ -1,6 +1,7 @@
 # Playwright Integration
 
-Kouma provides a built-in Playwright Test reporter that automatically collects screenshot attachments from test results and uploads them for visual comparison.
+Kouma provides a built-in Playwright Test reporter that automatically collects screenshot attachments from test results and uploads them for
+visual comparison.
 
 ## Installation
 
@@ -82,7 +83,8 @@ test('dashboard visual test', async ({ page }, testInfo) => {
 });
 ```
 
-The reporter automatically collects screenshot attachments (with `image/*` content types) from each test result and uploads them to Kouma when the suite finishes.
+The reporter automatically collects screenshot attachments (with `image/*` content types) from each test result and uploads them to Kouma
+when the suite finishes.
 
 ## Options
 
@@ -112,11 +114,11 @@ The reporter automatically collects screenshot attachments (with `image/*` conte
 ];
 ```
 
-| Option                          | Default | Description                                       |
-| ------------------------------- | ------- | ------------------------------------------------- |
-| `triggerVisualTesting`          | `true`  | Enable/disable the visual testing upload          |
-| `triggerOnAllPassed`            | `true`  | Only upload when all Playwright tests pass        |
-| `removeScreenshotsAfterUpload` | `true`  | Delete local screenshots after successful upload  |
+| Option                         | Default | Description                                      |
+| ------------------------------ | ------- | ------------------------------------------------ |
+| `triggerVisualTesting`         | `true`  | Enable/disable the visual testing upload         |
+| `triggerOnAllPassed`           | `true`  | Only upload when all Playwright tests pass       |
+| `removeScreenshotsAfterUpload` | `true`  | Delete local screenshots after successful upload |
 
 ## Environment Variables
 
@@ -130,7 +132,8 @@ The reporter respects the same environment variables as the CLI:
 
 ## How It Works
 
-1. **During tests** — After each test ends, the reporter scans the test result's attachments for image files (`image/png`, `image/jpeg`, `image/bmp`, `image/webp`, `image/gif`)
+1. **During tests** — After each test ends, the reporter scans the test result's attachments for image files (`image/png`, `image/jpeg`,
+   `image/bmp`, `image/webp`, `image/gif`)
 2. **Collecting** — Path-based attachments are copied, buffer-based attachments are written to a temporary `kouma-pw-screenshots` folder
 3. **After all tests** — The `onEnd` hook fires; the reporter uploads all collected screenshots to Kouma via `newBuildStaged`
 4. **Cleanup** — If enabled, the temporary screenshots folder is removed after upload

@@ -4,17 +4,9 @@ import { credential, authKey } from './auth-utils';
 
 mock.module('../services/project-service', () => ({ projectService: { getAllProjects: mock(() => Promise.resolve([])) } }));
 
-mock.module('../models/project', () => ({
-    Project: {
-        find: mock(() => ({ lean: () => Promise.resolve([]) })),
-    },
-}));
+mock.module('../models/project', () => ({ Project: { find: mock(() => ({ lean: () => Promise.resolve([]) })) } }));
 
-mock.module('../models/build', () => ({
-    Build: {
-        aggregate: mock(() => Promise.resolve([])),
-    },
-}));
+mock.module('../models/build', () => ({ Build: { aggregate: mock(() => Promise.resolve([])) } }));
 
 mock.module('../services/build-service', () => ({
     buildService: {
@@ -27,11 +19,11 @@ mock.module('../services/build-service', () => ({
 mock.module('../services/case-service', () => ({ caseService: { getBuildCases: mock(() => Promise.resolve([])) } }));
 mock.module('../config/auth.config', () => ({ authMode: 'passcode' }));
 
+import { Build } from '../models/build';
+import { Project } from '../models/project';
 import { buildService } from '../services/build-service';
 import { caseService } from '../services/case-service';
 import { projectService } from '../services/project-service';
-import { Project } from '../models/project';
-import { Build } from '../models/build';
 import {
     verifyJwt,
     requireApiAuth,

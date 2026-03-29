@@ -1,6 +1,5 @@
 import { Case } from '../models/case';
 
-
 class CaseService {
     async getBuildCases(bid: string) {
         return Case.find({ bid: bid }, {}, { sort: { caseResult: 1, updatedAt: -1 } }).lean();
@@ -29,7 +28,11 @@ class CaseService {
         let nextCase = null;
 
         if (onlyFails) {
-            prevCase = familyCases.slice(0, hostIndex).reverse().find((x) => x.caseResult === 'failed') || null;
+            prevCase =
+                familyCases
+                    .slice(0, hostIndex)
+                    .reverse()
+                    .find((x) => x.caseResult === 'failed') || null;
             nextCase = familyCases.slice(hostIndex + 1).find((x) => x.caseResult === 'failed') || null;
         } else {
             prevCase = hostIndex > 0 ? familyCases[hostIndex - 1] : null;
@@ -72,7 +75,10 @@ class CaseService {
     }
 
     async passAllBuildCases(bid: string) {
-        return Case.updateMany({ bid: bid, caseResult: { $ne: 'passed' } }, { $set: { caseResult: 'passed', comprehensiveCaseResult: 'confirmed' } });
+        return Case.updateMany(
+            { bid: bid, caseResult: { $ne: 'passed' } },
+            { $set: { caseResult: 'passed', comprehensiveCaseResult: 'confirmed' } },
+        );
     }
 
     async countBuildCases(bid: string) {
@@ -89,12 +95,7 @@ class CaseService {
                     failCount: {
                         $sum: {
                             $cond: [
-                                {
-                                    $or: [
-                                        { $eq: ['$caseResult', 'failed'] },
-                                        { $eq: ['$comprehensiveCaseResult', 'confirmed'] },
-                                    ],
-                                },
+                                { $or: [{ $eq: ['$caseResult', 'failed'] }, { $eq: ['$comprehensiveCaseResult', 'confirmed'] }] },
                                 1,
                                 0,
                             ],
@@ -132,11 +133,19 @@ class CaseService {
     }
 
     async passCaseAndClean(cid: string) {
-        return await Case.findOneAndUpdate({ cid }, { $set: { caseResult: 'passed', comprehensiveCaseResult: 'confirmed' } }, { returnDocument: 'after' });
+        return await Case.findOneAndUpdate(
+            { cid },
+            { $set: { caseResult: 'passed', comprehensiveCaseResult: 'confirmed' } },
+            { returnDocument: 'after' },
+        );
     }
 
     async failCaseAndClean(cid: string) {
-        return await Case.findOneAndUpdate({ cid }, { $set: { caseResult: 'failed', comprehensiveCaseResult: null } }, { returnDocument: 'after' });
+        return await Case.findOneAndUpdate(
+            { cid },
+            { $set: { caseResult: 'failed', comprehensiveCaseResult: null } },
+            { returnDocument: 'after' },
+        );
     }
 }
 

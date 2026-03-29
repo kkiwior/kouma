@@ -1,10 +1,10 @@
-import path from 'path';
 import { existsSync } from 'node:fs';
+import path from 'path';
 import { Build } from '../models/build';
 import { Case } from '../models/case';
-import { projectService } from './project-service';
 import { deleteDirectory } from '../utils/file-utils';
 import { logger } from '../utils/logger';
+import { projectService } from './project-service';
 
 class RetentionService {
     async applyRetentionForAllProjects() {
@@ -62,11 +62,7 @@ class RetentionService {
         let candidates: Array<{ bid: string; buildIndex: number; isBaseline: boolean }>;
 
         if (policyType === 'builds') {
-            const allBuilds = await Build.find(
-                { pid },
-                { bid: 1, buildIndex: 1, isBaseline: 1 },
-                { sort: { _id: -1 } },
-            ).lean();
+            const allBuilds = await Build.find({ pid }, { bid: 1, buildIndex: 1, isBaseline: 1 }, { sort: { _id: -1 } }).lean();
 
             if (allBuilds.length <= policyValue) {
                 return [];
@@ -93,10 +89,7 @@ class RetentionService {
         return candidates;
     }
 
-    async deleteBuildArtifacts(
-        project: { pid: string; sharedProjectRootPath: string },
-        build: { bid: string; buildIndex: number },
-    ) {
+    async deleteBuildArtifacts(project: { pid: string; sharedProjectRootPath: string }, build: { bid: string; buildIndex: number }) {
         // Delete build directory from disk
         const buildDir = path.join(project.sharedProjectRootPath, 'builds', `build_${build.buildIndex}`);
         if (existsSync(buildDir)) {

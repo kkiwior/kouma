@@ -1,5 +1,5 @@
-import { ref } from 'vue';
 import { parseGIF, decompressFrames } from 'gifuct-js';
+import { ref } from 'vue';
 
 export interface DecodedFrame {
     imageData: ImageData;

@@ -121,10 +121,7 @@ async function handleRequest(req: Request): Promise<Response> {
                     headers: req.headers,
                     body: hasBody ? req.body : undefined,
                 });
-                response = new Response(proxyResp.body, {
-                    status: proxyResp.status,
-                    headers: proxyResp.headers,
-                });
+                response = new Response(proxyResp.body, { status: proxyResp.status, headers: proxyResp.headers });
             } catch (err) {
                 logger.error('Engine proxy error:', err);
                 response = internalServerError({ message: 'Engine proxy error' });

@@ -6,10 +6,10 @@ Kouma can be deployed using Docker Compose for local development or Kubernetes w
 
 Kouma publishes Docker images to the GitHub Container Registry (GHCR):
 
-| Image | Pull Address |
-| --- | --- |
+| Image         | Pull Address                      |
+| ------------- | --------------------------------- |
 | **Dashboard** | `ghcr.io/kkiwior/kouma/dashboard` |
-| **Engine** | `ghcr.io/kkiwior/kouma/engine` |
+| **Engine**    | `ghcr.io/kkiwior/kouma/engine`    |
 
 Each release publishes both a version-tagged image (e.g., `:1.2.3`) and a `:latest` tag.
 
@@ -36,11 +36,11 @@ docker-compose up
 
 This starts three services:
 
-| Service       | Port    | Description                      |
-| ------------- | ------- | -------------------------------- |
-| **Dashboard** | `3001`  | Web application                  |
-| **Engine**    | `3002`  | Comparison engine                |
-| **MongoDB**   | `27017` | Database                         |
+| Service       | Port    | Description       |
+| ------------- | ------- | ----------------- |
+| **Dashboard** | `3001`  | Web application   |
+| **Engine**    | `3002`  | Comparison engine |
+| **MongoDB**   | `27017` | Database          |
 
 ### 3. Access Kouma
 

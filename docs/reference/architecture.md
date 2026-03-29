@@ -57,7 +57,6 @@ Responsibilities:
 - Generate diff images highlighting pixel differences
 - Update build and case results in MongoDB
 
-
 ### Shared File System
 
 A Docker volume (`kouma-exchange-volume`) shared between Dashboard, and Engine:
@@ -105,13 +104,14 @@ Each service runs as a separate deployment with:
 - Optional Ingress resource with TLS support
 - Support for external MongoDB connections
 
-The Helm chart is published to `oci://ghcr.io/kkiwior/charts/kouma`. See the [Helm Chart Reference](/reference/helm-chart) for all available configuration options.
+The Helm chart is published to `oci://ghcr.io/kkiwior/charts/kouma`. See the [Helm Chart Reference](/reference/helm-chart) for all available
+configuration options.
 
 ## Docker Images
 
-| Image | Address |
-| --- | --- |
+| Image         | Address                           |
+| ------------- | --------------------------------- |
 | **Dashboard** | `ghcr.io/kkiwior/kouma/dashboard` |
-| **Engine** | `ghcr.io/kkiwior/kouma/engine` |
+| **Engine**    | `ghcr.io/kkiwior/kouma/engine`    |
 
 Each release publishes both a version-tagged image (e.g., `:1.2.3`) and a `:latest` tag.
