@@ -9,7 +9,6 @@ import type {
     AuthConfig,
     ProjectConfig,
     Rectangle,
-    ApiError,
     WebhookConfig,
     WebhookTestResult,
     ProjectAnalytics,
@@ -46,7 +45,7 @@ const api = {
             try {
                 const errorData = await response.json();
                 if (errorData?.message) message = errorData.message;
-            } catch (e) {}
+            } catch {}
             throw new AppApiError(response.status, message);
         }
 
