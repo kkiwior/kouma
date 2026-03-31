@@ -1,3 +1,11 @@
+## [1.0.9](https://github.com/kkiwior/kouma/compare/v1.0.8...v1.0.9) (2026-03-31)
+
+
+### Bug Fixes
+
+* allow static serving for leading-slash asset paths ([8d3a341](https://github.com/kkiwior/kouma/commit/8d3a34192e5d90469e7b3ebb46ce598f50ddd7f7))
+* **client:** silence TS6 moduleResolution deprecation in cjs tsconfig ([d385b32](https://github.com/kkiwior/kouma/commit/d385b32116bc6642ad1c346c299702f2ab2fceee))
+
 ## [1.0.8](https://github.com/kkiwior/kouma/compare/v1.0.7...v1.0.8) (2026-03-31)
 
 
