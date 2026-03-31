@@ -11,8 +11,8 @@
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "types": ["bun-types"]
+        "types": ["node"]
     },
     "include": ["backend/**/*.ts"],
-    "exclude": ["node_modules", "frontend"]
+    "exclude": ["node_modules", "frontend", "backend/**/*.test.ts", "backend/**/*.spec.ts"]
 }

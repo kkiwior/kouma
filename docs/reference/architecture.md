@@ -7,7 +7,7 @@ Overview of Kouma's system architecture and how the services interact.
 ```
 ┌─────────────────────────────────────────────────┐
 │              Dashboard (port 3001)               │
-│             Bun + TypeScript + Vue 3             │
+│             Node.js + TypeScript + Vue 3             │
 │                                                  │
 │  /          → Serves Vue Frontend                │
 │  /api/      → Dashboard REST API                 │
@@ -33,7 +33,7 @@ Overview of Kouma's system architecture and how the services interact.
 
 ### Dashboard
 
-**Technology**: Bun + TypeScript (backend), Vue 3 + Vite (frontend)
+**Technology**: Node.js + TypeScript (backend), Vue 3 + Vite (frontend)
 
 Responsibilities:
 
