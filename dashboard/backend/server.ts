@@ -1,4 +1,8 @@
 import path from 'path';
+import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import { serve } from '@hono/node-server';
+import { Hono } from 'hono';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { exchangeRootDir, engineUrl } from './config/env.config.ts';
 import { registerActivityLogRoutes } from './controllers/activity-log.controller.ts';
@@ -19,7 +23,9 @@ import { getEnv } from './utils/env-utils.js';
 import { logger } from './utils/logger.ts';
 
 const PORT = Number(getEnv('PORT', '3001'));
-const PUBLIC_DIR = path.join(import.meta.dir, '..', 'public');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const PUBLIC_DIR = path.join(__dirname, '..', 'public');
 const VUE_APP_DIR = path.join(PUBLIC_DIR, 'vue-app');
 const EXCHANGE_DIR = exchangeRootDir;
 
@@ -145,11 +151,13 @@ async function handleRequest(req: Request): Promise<Response> {
             return response;
         }
 
-        const indexFile = Bun.file(path.join(VUE_APP_DIR, 'index.html'));
-        if (await indexFile.exists()) {
-            response = new Response(indexFile, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+        try {
+            const indexHtml = await readFile(path.join(VUE_APP_DIR, 'index.html'));
+            response = new Response(indexHtml, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
             logRequest(method, pathname, response.status, startTime);
             return response;
+        } catch {
+            // index.html does not exist yet
         }
 
         response = notFound({ message: 'Not Found' });
@@ -176,11 +184,14 @@ const retentionIntervalId = setInterval(async () => {
     }
 }, RETENTION_INTERVAL_MS);
 
-const server = Bun.serve({ port: PORT, fetch: handleRequest });
+const app = new Hono();
+app.all('*', (c) => handleRequest(c.req.raw));
+
+const server = serve({ port: PORT, fetch: app.fetch });
 
 process.on('SIGTERM', () => {
     clearInterval(retentionIntervalId);
-    server.stop();
+    server.close();
 });
 
-logger.info(`🚀 Kouma Dashboard running on http://localhost:${server.port}`);
+logger.info(`🚀 Kouma Dashboard running on http://localhost:${PORT}`);
