@@ -129,7 +129,10 @@ export function getMimeType(filePath: string): string {
 }
 
 export async function serveStatic(basePath: string, urlPath: string): Promise<Response | null> {
-    const safePath = path.normalize(urlPath).replace(/^(\.\.(\/|\\|$))+/, '');
+    const safePath = path
+        .normalize(urlPath)
+        .replace(/^[/\\]+/, '')
+        .replace(/^(\.\.(\/|\\|$))+/, '');
     const resolvedBase = path.resolve(basePath);
     const filePath = path.resolve(resolvedBase, safePath);
 

@@ -323,5 +323,13 @@ describe('helpers', () => {
             expect(resp).not.toBeNull();
             expect(resp!.headers.get('content-type')).toBe('text/css');
         });
+
+        it('should serve file when url path starts with leading slash', async () => {
+            writeFileSync(path.join(STATIC_DIR, 'image.webp'), 'content');
+            const resp = await serveStatic(STATIC_DIR, '/image.webp');
+            expect(resp).not.toBeNull();
+            expect(resp!.status).toBe(200);
+            expect(resp!.headers.get('content-type')).toBe('image/webp');
+        });
     });
 });
