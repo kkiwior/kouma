@@ -5,18 +5,20 @@
     "type": "module",
     "scripts": {
         "dev:frontend": "bunx --bun vite",
-        "dev:backend": "bun backend/server.ts",
+        "dev:backend": "node --import tsx backend/server.ts",
         "lint": "oxlint .",
         "build": "bunx --bun vite build",
-        "start": "bun backend/server.ts",
+        "start": "node --import tsx backend/server.ts",
         "test": "find backend frontend/src -name '*.test.ts' -o -name '*.spec.ts' | while IFS= read -r f; do echo \"--- $f ---\" && bun test \"$f\" || exit 1; done",
         "typecheck": "bunx --bun tsc --noEmit"
     },
     "dependencies": {
+        "@hono/node-server": "^1.19.12",
         "@vueuse/core": "^14.2.1",
         "check-disk-space": "^3.4.0",
         "crypto-js": "^4.2.0",
         "gifuct-js": "^2.1.2",
+        "hono": "^4.12.9",
         "http-status-codes": "^2.3.0",
         "jsonwebtoken": "^9.0.3",
         "mongoose": "^9.3.3",
@@ -37,6 +39,7 @@
         "jsdom": "^29.0.1",
         "swagger-cli": "^4.0.4",
         "tailwindcss": "^4.2.2",
+        "tsx": "^4.20.6",
         "typescript": "^6.0.2",
         "vite": "^8.0.3",
         "vue-tsc": "^3.2.6"

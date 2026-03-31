@@ -1,4 +1,4 @@
-import { readdirSync, unlinkSync, mkdirSync, existsSync, statSync, rmSync } from 'node:fs';
+import { readdirSync, unlinkSync, mkdirSync, existsSync, statSync, rmSync, copyFileSync } from 'node:fs';
 import path from 'node:path';
 import { logger } from './logger.ts';
 
@@ -30,8 +30,7 @@ export async function moveFiles(sourceDirectory: string, destDirectory: string, 
         const fullPathSourceFile = path.join(sourceDirectory, eachFile);
         const fullPathDestinationFile = path.join(destDirectory, destinationFile);
 
-        const sourceFile = Bun.file(fullPathSourceFile);
-        await Bun.write(fullPathDestinationFile, sourceFile);
+        copyFileSync(fullPathSourceFile, fullPathDestinationFile);
 
         logger.debug(`copied file: ${fullPathSourceFile} -> ${fullPathDestinationFile}`);
     }

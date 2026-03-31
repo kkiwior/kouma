@@ -1,4 +1,5 @@
 import path from 'path';
+import { readFile, stat, writeFile } from 'node:fs/promises';
 import { logger } from '../utils/logger.ts';
 
 export function parseCookies(req: Request): Record<string, string> {
@@ -57,7 +58,7 @@ export async function parseMultipartFiles(req: Request): Promise<Record<string, 
                     name: fileEntry.name,
                     data,
                     async mv(filepath: string) {
-                        await Bun.write(filepath, data);
+                        await writeFile(filepath, data);
                     },
                 };
             }
@@ -129,17 +130,23 @@ export function getMimeType(filePath: string): string {
 
 export async function serveStatic(basePath: string, urlPath: string): Promise<Response | null> {
     const safePath = path.normalize(urlPath).replace(/^(\.\.(\/|\\|$))+/, '');
-    const filePath = path.join(basePath, safePath);
+    const resolvedBase = path.resolve(basePath);
+    const filePath = path.resolve(resolvedBase, safePath);
 
-    if (!filePath.startsWith(basePath)) {
+    if (!filePath.startsWith(`${resolvedBase}${path.sep}`)) {
         return new Response('Forbidden', { status: 403 });
     }
 
-    const file = Bun.file(filePath);
-    if (await file.exists()) {
-        return new Response(file, { headers: { 'Content-Type': getMimeType(filePath) } });
+    try {
+        const fileStats = await stat(filePath);
+        if (!fileStats.isFile()) {
+            return null;
+        }
+        const data = await readFile(filePath);
+        return new Response(data, { headers: { 'Content-Type': getMimeType(filePath) } });
+    } catch {
+        return null;
     }
-    return null;
 }
 
 export function logRequest(method: string, url: string, status: number, startTime: number): void {
