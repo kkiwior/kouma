@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/kkiwior/kouma/compare/v1.0.7...v1.0.8) (2026-03-31)
+
+
+### Bug Fixes
+
+* update Dockerfile, types config and docs for Node.js runtime ([300ac77](https://github.com/kkiwior/kouma/commit/300ac77f2f637cd56920e269cc8ba99479e4bba6))
+
 ## [1.0.7](https://github.com/kkiwior/kouma/compare/v1.0.6...v1.0.7) (2026-03-28)
 
 ### Bug Fixes
