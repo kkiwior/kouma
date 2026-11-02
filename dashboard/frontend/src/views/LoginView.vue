@@ -265,7 +265,8 @@ const oauthError = ref('');
 onMounted(async () => {
     const errorParam = route.query.error as string | undefined;
     if (errorParam) {
-        oauthError.value = OAUTH_ERROR_MESSAGES[errorParam] ?? decodeURIComponent(errorParam);
+        // vue-router already decodes query values, decoding again throws on a literal '%'.
+        oauthError.value = OAUTH_ERROR_MESSAGES[errorParam] ?? errorParam;
         // Drop the error from the URL so it does not reappear after a refresh.
         router.replace({ query: { ...route.query, error: undefined } });
     }
