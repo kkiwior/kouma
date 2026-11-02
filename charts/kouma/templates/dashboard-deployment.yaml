@@ -91,6 +91,14 @@ spec:
             - name: KOUMA_OAUTH_ALLOWED_DOMAINS
               value: {{ .Values.dashboard.auth.oauthAllowedDomains | quote }}
             {{- end }}
+            {{- if .Values.dashboard.auth.oauthAllowedEmails }}
+            - name: KOUMA_OAUTH_ALLOWED_EMAILS
+              value: {{ .Values.dashboard.auth.oauthAllowedEmails | quote }}
+            {{- end }}
+            {{- if eq (toString .Values.dashboard.auth.oauthRequireVerifiedEmail) "false" }}
+            - name: KOUMA_OAUTH_REQUIRE_VERIFIED_EMAIL
+              value: "false"
+            {{- end }}
             {{- with .Values.common.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

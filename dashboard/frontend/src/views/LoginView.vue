@@ -247,6 +247,16 @@ const router = useRouter();
 const route = useRoute();
 const { login, getAuthConfig, loading } = useApi();
 
+const OAUTH_ERROR_MESSAGES: Record<string, string> = {
+    domain_not_allowed: 'Your account is not allowed to access this dashboard. Ask an administrator to add your email domain.',
+    email_not_allowed: 'Your account is not on the list of users allowed to access this dashboard.',
+    email_not_verified: 'Your email address has not been verified by the sign-in provider.',
+    invalid_email: 'The sign-in provider did not return a valid email address.',
+    missing_code: 'The sign-in response was incomplete. Please try again.',
+    invalid_provider: 'Unknown sign-in provider.',
+    oauth_failed: 'Sign-in failed. Please try again.',
+};
+
 const passcode = ref('');
 const loginFailed = ref(false);
 const authConfig = ref<AuthConfig | null>(null);
@@ -255,7 +265,9 @@ const oauthError = ref('');
 onMounted(async () => {
     const errorParam = route.query.error as string | undefined;
     if (errorParam) {
-        oauthError.value = decodeURIComponent(errorParam);
+        oauthError.value = OAUTH_ERROR_MESSAGES[errorParam] ?? decodeURIComponent(errorParam);
+        // Drop the error from the URL so it does not reappear after a refresh.
+        router.replace({ query: { ...route.query, error: undefined } });
     }
 
     const config = await getAuthConfig();

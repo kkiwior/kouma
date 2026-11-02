@@ -142,8 +142,12 @@ dashboard:
     google:
       clientId: ""
       clientSecret: ""
-    # -- Comma-separated list of allowed OAuth email domains
+    # -- Comma-separated list of allowed OAuth email domains. Use "*.example.com" to also allow all subdomains
     oauthAllowedDomains: ""
+    # -- Comma-separated list of individual email addresses allowed to sign in via OAuth
+    oauthAllowedEmails: ""
+    # -- Reject OAuth accounts whose email address is not verified by the provider (Google)
+    oauthRequireVerifiedEmail: true
   # -- Additional environment variables for the dashboard
   extraEnv: []
   resources: {}
