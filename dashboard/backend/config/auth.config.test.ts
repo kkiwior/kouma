@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'bun:test';
 
 process.env.KOUMA_AUTH_MODE = 'passcode';
+process.env.KOUMA_OAUTH_ALLOWED_DOMAINS = 'Example.com, *.corp.example.org';
+process.env.KOUMA_OAUTH_ALLOWED_EMAILS = 'Contractor@Partner.io';
+delete process.env.KOUMA_OAUTH_REQUIRE_VERIFIED_EMAIL;
 
 describe('auth.config', () => {
     describe('parseAuthMode', () => {
@@ -45,10 +48,25 @@ describe('auth.config', () => {
             expect(googleOAuth.tokenUrl).toContain('googleapis.com');
             expect(googleOAuth.scope).toContain('openid');
         });
+    });
 
-        it('should export oauthAllowedDomains as an array', async () => {
-            const { oauthAllowedDomains } = await import('./auth.config.ts');
-            expect(Array.isArray(oauthAllowedDomains)).toBe(true);
+    describe('oauthAccessPolicy', () => {
+        it('should parse allowed domains from env', async () => {
+            const { oauthAccessPolicy } = await import('./auth.config.ts');
+            expect(oauthAccessPolicy.domains).toEqual([
+                { domain: 'example.com', includeSubdomains: false },
+                { domain: 'corp.example.org', includeSubdomains: true },
+            ]);
+        });
+
+        it('should parse allowed emails from env', async () => {
+            const { oauthAccessPolicy } = await import('./auth.config.ts');
+            expect(oauthAccessPolicy.emails).toEqual(['contractor@partner.io']);
+        });
+
+        it('should require verified emails by default', async () => {
+            const { oauthAccessPolicy } = await import('./auth.config.ts');
+            expect(oauthAccessPolicy.requireVerifiedEmail).toBe(true);
         });
     });
 });

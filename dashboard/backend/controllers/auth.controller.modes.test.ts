@@ -19,7 +19,7 @@ mock.module('../config/auth.config', () => ({
         userInfoUrl: 'https://www.googleapis.com/oauth2/v3/userinfo',
         scope: 'openid profile email',
     },
-    oauthAllowedDomains: [],
+    oauthAccessPolicy: { domains: [], emails: [], requireVerifiedEmail: true },
     getOAuthRedirectUri: (_req: Request, provider: string) => `http://localhost:3001/api/auth/oauth/callback?provider=${provider}`,
 }));
 

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { authMode, microsoftOAuth, googleOAuth, oauthAllowedDomains, getOAuthRedirectUri } from '../config/auth.config.ts';
+import { authMode, microsoftOAuth, googleOAuth, oauthAccessPolicy, getOAuthRedirectUri } from '../config/auth.config.ts';
 import { activityLogService } from '../services/activity-log-service.ts';
 import { authService } from '../services/auth-service.ts';
 import {
@@ -16,6 +16,7 @@ import {
 import { Router } from '../src/router.ts';
 import { expireTime, authKey, credential, decryptPasscode } from '../utils/auth-utils';
 import { logger } from '../utils/logger.ts';
+import { evaluateOAuthAccess, type OAuthProfile } from '../utils/oauth-access-policy.ts';
 import { verifyJwt, requireApiAuth, safeErrorMessage, getUserFromRequest } from '../utils/server-utils.ts';
 
 function issueAuthCookie(email?: string): { token: string; cookieHeader: string } {
@@ -234,7 +235,10 @@ export function registerAuthRoutes(router: Router) {
      *           enum: [microsoft, google]
      *     responses:
      *       302:
-     *         description: Redirect to dashboard on success
+     *         description: |
+     *           Redirect to dashboard on success. When the account is rejected by the OAuth access policy the user is
+     *           redirected to `/login?error=<reason>` where reason is one of `domain_not_allowed`, `email_not_allowed`,
+     *           `email_not_verified` or `invalid_email`.
      */
     router.get('/api/auth/oauth/callback', async (req) => {
         const url = new URL(req.url);
@@ -258,19 +262,16 @@ export function registerAuthRoutes(router: Router) {
 
         try {
             const redirectUri = getOAuthRedirectUri(req, provider);
-            const email = await exchangeCodeForEmail(provider, code, redirectUri);
+            const profile = await fetchOAuthProfile(provider, code, redirectUri);
 
-            if (oauthAllowedDomains.length > 0) {
-                const atIndex = email.lastIndexOf('@');
-                const domain = atIndex !== -1 ? email.substring(atIndex + 1).toLowerCase() : '';
-                if (!domain || !oauthAllowedDomains.includes(domain)) {
-                    logger.warn(`OAuth: domain '${domain}' not in allowed list for ${email}`);
-                    return redirectResponse('/login?error=domain_not_allowed');
-                }
+            const decision = evaluateOAuthAccess(profile, oauthAccessPolicy);
+            if (!decision.allowed) {
+                logger.warn(`OAuth: sign-in denied for ${profile.email} via ${provider} (${decision.reason})`);
+                return redirectResponse(`/login?error=${decision.reason}`);
             }
 
-            const { cookieHeader } = issueAuthCookie(email);
-            await activityLogService.log('', 'user_login', email, 'auth', '', `User logged in via OAuth (${provider})`);
+            const { cookieHeader } = issueAuthCookie(profile.email);
+            await activityLogService.log('', 'user_login', profile.email, 'auth', '', `User logged in via OAuth (${provider})`);
             return redirectResponse('/', 302, cookieHeader);
         } catch (error) {
             logger.error('OAuth callback error:', error);
@@ -305,7 +306,7 @@ export function registerAuthRoutes(router: Router) {
     });
 }
 
-async function exchangeCodeForEmail(provider: 'microsoft' | 'google', code: string, redirectUri: string): Promise<string> {
+async function fetchOAuthProfile(provider: 'microsoft' | 'google', code: string, redirectUri: string): Promise<OAuthProfile> {
     let tokenUrl: string;
     let tokenBody: URLSearchParams;
     let userInfoUrl: string;
@@ -367,5 +368,14 @@ async function exchangeCodeForEmail(provider: 'microsoft' | 'google', code: stri
         throw new Error('No email found in OAuth user info');
     }
 
-    return email.toLowerCase();
+    return { email: email.trim().toLowerCase(), emailVerified: isEmailVerified(provider, userInfo) };
+}
+
+function isEmailVerified(provider: 'microsoft' | 'google', userInfo: Record<string, unknown>): boolean {
+    if (provider === 'google') {
+        // Google returns a boolean from the userinfo endpoint, but some proxies serialize it as a string.
+        return userInfo.email_verified === true || userInfo.email_verified === 'true';
+    }
+    // Microsoft Graph does not expose a verification flag; addresses are managed by the tenant.
+    return true;
 }

@@ -102,29 +102,31 @@ Shared settings applied to both dashboard and engine.
 
 ### Dashboard
 
-| Key                                     | Type   | Default                           | Description                                          |
-| --------------------------------------- | ------ | --------------------------------- | ---------------------------------------------------- |
-| `dashboard.replicaCount`                | int    | `1`                               | Number of dashboard replicas                         |
-| `dashboard.image.repository`            | string | `ghcr.io/kkiwior/kouma/dashboard` | Dashboard image                                      |
-| `dashboard.image.tag`                   | string | `""`                              | Image tag (defaults to `appVersion`)                 |
-| `dashboard.service.type`                | string | `ClusterIP`                       | Service type                                         |
-| `dashboard.service.port`                | int    | `3001`                            | Service port                                         |
-| `dashboard.service.nodePort`            | string | `""`                              | NodePort (when type is NodePort)                     |
-| `dashboard.auth.mode`                   | string | `none`                            | Auth mode: `none`, `passcode`, `microsoft`, `google` |
-| `dashboard.auth.passcodeKey`            | string | `""`                              | Passcode (when mode is `passcode`)                   |
-| `dashboard.auth.tokenKey`               | string | `""`                              | Cookie / token name                                  |
-| `dashboard.auth.accessTokenSecret`      | string | `""`                              | JWT signing secret                                   |
-| `dashboard.auth.microsoft.clientId`     | string | `""`                              | Azure AD client ID                                   |
-| `dashboard.auth.microsoft.clientSecret` | string | `""`                              | Azure AD client secret                               |
-| `dashboard.auth.microsoft.tenantId`     | string | `""`                              | Azure AD tenant ID                                   |
-| `dashboard.auth.google.clientId`        | string | `""`                              | Google client ID                                     |
-| `dashboard.auth.google.clientSecret`    | string | `""`                              | Google client secret                                 |
-| `dashboard.auth.oauthAllowedDomains`    | string | `""`                              | Comma-separated allowed email domains                |
-| `dashboard.extraEnv`                    | list   | `[]`                              | Extra environment variables                          |
-| `dashboard.resources`                   | object | `{}`                              | Resource requests/limits                             |
-| `dashboard.nodeSelector`                | object | `{}`                              | Node selector                                        |
-| `dashboard.tolerations`                 | list   | `[]`                              | Tolerations                                          |
-| `dashboard.affinity`                    | object | `{}`                              | Affinity rules                                       |
+| Key                                        | Type   | Default                           | Description                                                 |
+| ------------------------------------------ | ------ | --------------------------------- | ----------------------------------------------------------- |
+| `dashboard.replicaCount`                   | int    | `1`                               | Number of dashboard replicas                                |
+| `dashboard.image.repository`               | string | `ghcr.io/kkiwior/kouma/dashboard` | Dashboard image                                             |
+| `dashboard.image.tag`                      | string | `""`                              | Image tag (defaults to `appVersion`)                        |
+| `dashboard.service.type`                   | string | `ClusterIP`                       | Service type                                                |
+| `dashboard.service.port`                   | int    | `3001`                            | Service port                                                |
+| `dashboard.service.nodePort`               | string | `""`                              | NodePort (when type is NodePort)                            |
+| `dashboard.auth.mode`                      | string | `none`                            | Auth mode: `none`, `passcode`, `microsoft`, `google`        |
+| `dashboard.auth.passcodeKey`               | string | `""`                              | Passcode (when mode is `passcode`)                          |
+| `dashboard.auth.tokenKey`                  | string | `""`                              | Cookie / token name                                         |
+| `dashboard.auth.accessTokenSecret`         | string | `""`                              | JWT signing secret                                          |
+| `dashboard.auth.microsoft.clientId`        | string | `""`                              | Azure AD client ID                                          |
+| `dashboard.auth.microsoft.clientSecret`    | string | `""`                              | Azure AD client secret                                      |
+| `dashboard.auth.microsoft.tenantId`        | string | `""`                              | Azure AD tenant ID                                          |
+| `dashboard.auth.google.clientId`           | string | `""`                              | Google client ID                                            |
+| `dashboard.auth.google.clientSecret`       | string | `""`                              | Google client secret                                        |
+| `dashboard.auth.oauthAllowedDomains`       | string | `""`                              | Comma-separated allowed email domains (`*.` for subdomains) |
+| `dashboard.auth.oauthAllowedEmails`        | string | `""`                              | Comma-separated allowed email addresses                     |
+| `dashboard.auth.oauthRequireVerifiedEmail` | bool   | `true`                            | Reject unverified OAuth emails (Google)                     |
+| `dashboard.extraEnv`                       | list   | `[]`                              | Extra environment variables                                 |
+| `dashboard.resources`                      | object | `{}`                              | Resource requests/limits                                    |
+| `dashboard.nodeSelector`                   | object | `{}`                              | Node selector                                               |
+| `dashboard.tolerations`                    | list   | `[]`                              | Tolerations                                                 |
+| `dashboard.affinity`                       | object | `{}`                              | Affinity rules                                              |
 
 ### Engine
 
@@ -162,7 +164,8 @@ dashboard:
             clientId: your-client-id
             clientSecret: your-client-secret
             tenantId: your-tenant-id
-        oauthAllowedDomains: example.com
+        oauthAllowedDomains: '*.example.com'
+        oauthAllowedEmails: contractor@partner.io
 
 engine:
     resources:

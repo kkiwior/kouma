@@ -38,8 +38,10 @@ services:
             # For Google OAuth: set KOUMA_AUTH_MODE=google and configure:
             #   - KOUMA_GOOGLE_CLIENT_ID=<your-client-id>
             #   - KOUMA_GOOGLE_CLIENT_SECRET=<your-client-secret>
-            # Optional domain restriction for OAuth:
-            #   - KOUMA_OAUTH_ALLOWED_DOMAINS=example.com,corp.example.com
+            # Optional access restriction for OAuth (wildcards like *.example.com match all subdomains):
+            #   - KOUMA_OAUTH_ALLOWED_DOMAINS=example.com,*.corp.example.com
+            #   - KOUMA_OAUTH_ALLOWED_EMAILS=contractor@partner.io
+            #   - KOUMA_OAUTH_REQUIRE_VERIFIED_EMAIL=true
         volumes:
             - 'kouma-exchange-volume:/exchange'
         networks:
