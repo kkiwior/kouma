@@ -1,4 +1,5 @@
 import { getEnv } from '../utils/env-utils.js';
+import { parseAllowedEmails, parseDomainRules, type OAuthAccessPolicy } from '../utils/oauth-access-policy.ts';
 
 export type AuthMode = 'none' | 'passcode' | 'microsoft' | 'google';
 
@@ -35,10 +36,11 @@ export const googleOAuth = {
     scope: 'openid profile email',
 };
 
-export const oauthAllowedDomains: string[] = (getEnv('OAUTH_ALLOWED_DOMAINS', '') || '')
-    .split(',')
-    .map((d) => d.trim().toLowerCase())
-    .filter(Boolean);
+export const oauthAccessPolicy: OAuthAccessPolicy = {
+    domains: parseDomainRules(getEnv('OAUTH_ALLOWED_DOMAINS', '')),
+    emails: parseAllowedEmails(getEnv('OAUTH_ALLOWED_EMAILS', '')),
+    requireVerifiedEmail: getEnv('OAUTH_REQUIRE_VERIFIED_EMAIL', 'true').toLowerCase() !== 'false',
+};
 
 export function getOAuthRedirectUri(req: Request, provider: string): string {
     const host = req.headers.get('x-forwarded-host') || req.headers.get('host') || 'localhost:3001';

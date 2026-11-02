@@ -33,9 +33,13 @@ Complete reference of all environment variables used by Kouma services.
 
 ### OAuth Common
 
-| Variable                      | Description                                   |
-| ----------------------------- | --------------------------------------------- |
-| `KOUMA_OAUTH_ALLOWED_DOMAINS` | Comma-separated list of allowed email domains |
+| Variable                             | Default | Description                                                                           |
+| ------------------------------------ | ------- | ------------------------------------------------------------------------------------- |
+| `KOUMA_OAUTH_ALLOWED_DOMAINS`        | —       | Comma-separated list of allowed email domains; `*.example.com` also allows subdomains |
+| `KOUMA_OAUTH_ALLOWED_EMAILS`         | —       | Comma-separated list of individual email addresses allowed to sign in                 |
+| `KOUMA_OAUTH_REQUIRE_VERIFIED_EMAIL` | `true`  | Reject accounts whose email is not verified by the provider (Google only)             |
+
+See [Authentication › Access Restrictions](../guide/authentication.md#access-restrictions) for matching rules.
 
 ## Engine
 

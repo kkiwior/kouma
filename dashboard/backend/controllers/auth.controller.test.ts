@@ -4,7 +4,7 @@ mock.module('../config/auth.config', () => ({
     authMode: 'passcode',
     microsoftOAuth: { clientId: '', clientSecret: '', tenantId: 'common', authorizeUrl: '', tokenUrl: '', userInfoUrl: '', scope: '' },
     googleOAuth: { clientId: '', clientSecret: '', authorizeUrl: '', tokenUrl: '', userInfoUrl: '', scope: '' },
-    oauthAllowedDomains: [],
+    oauthAccessPolicy: { domains: [], emails: [], requireVerifiedEmail: true },
     getOAuthRedirectUri: () => '',
 }));
 
