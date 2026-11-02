@@ -107,6 +107,14 @@ describe('Auth Controller - OAuth access policy', () => {
         expect(activityLog).not.toHaveBeenCalled();
     });
 
+    it('should reject a user from a lookalike domain of a wildcard domain', async () => {
+        mockGoogle({ email: 'mallory@evilcorp.example.org', email_verified: true });
+
+        const res = await callback();
+        expect(res.headers.get('location')).toBe('/login?error=domain_not_allowed');
+        expect(res.headers.get('set-cookie')).toBeNull();
+    });
+
     it('should reject a user whose email is not verified', async () => {
         mockGoogle({ email: 'alice@example.com', email_verified: false });
 

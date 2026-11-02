@@ -73,6 +73,8 @@ Entries are comma-separated and case-insensitive:
 | `example.com`   | `alice@example.com` only — subdomains are **not** included             |
 | `*.example.com` | `alice@example.com`, `bob@dev.example.com`, `carol@eu.dev.example.com` |
 
+Wildcards only match whole domain labels: `*.example.com` does **not** match lookalike domains such as `notexample.com`.
+
 Invalid entries (for example `localhost` or `user@example.com`) are ignored and reported in the dashboard logs on startup.
 
 ### Allowed Emails

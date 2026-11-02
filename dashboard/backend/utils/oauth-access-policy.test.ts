@@ -112,6 +112,12 @@ describe('oauth-access-policy', () => {
             expect(matchesDomainRule('example.com.attacker.io', wildcard)).toBe(false);
             expect(matchesDomainRule('example.com.attacker.io', exact)).toBe(false);
         });
+
+        it('should not match lookalike domains that merely end with the allowed domain', () => {
+            expect(matchesDomainRule('notexample.com', wildcard)).toBe(false);
+            expect(matchesDomainRule('evil-example.com', wildcard)).toBe(false);
+            expect(matchesDomainRule('notexample.com', exact)).toBe(false);
+        });
     });
 
     describe('isAccessRestricted', () => {
@@ -159,6 +165,13 @@ describe('oauth-access-policy', () => {
 
         it('should allow users from subdomains of a wildcard domain', () => {
             expect(evaluateOAuthAccess({ email: 'bob@qa.corp.example.org', emailVerified: true }, restricted)).toEqual({ allowed: true });
+        });
+
+        it('should reject lookalike domains of a wildcard domain', () => {
+            expect(evaluateOAuthAccess({ email: 'mallory@evilcorp.example.org', emailVerified: true }, restricted)).toEqual({
+                allowed: false,
+                reason: 'domain_not_allowed',
+            });
         });
 
         it('should allow explicitly listed emails from other domains', () => {

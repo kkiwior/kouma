@@ -68,7 +68,8 @@ export function getEmailDomain(email: string): string {
 
 export function matchesDomainRule(domain: string, rule: DomainRule): boolean {
     if (domain === rule.domain) return true;
-    return rule.includeSubdomains && domain.endsWith(rule.domain);
+    // Require a label boundary, otherwise `*.example.com` would also match `notexample.com`.
+    return rule.includeSubdomains && domain.endsWith(`.${rule.domain}`);
 }
 
 export function isAccessRestricted(policy: OAuthAccessPolicy): boolean {
